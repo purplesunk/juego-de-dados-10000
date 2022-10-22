@@ -1,7 +1,7 @@
 #ifndef GAMEPLAY_H_INCLUDED
 #define GAMEPLAY_H_INCLUDED
 
-std::string ingreseNombre();
+std::string ingreseNombre(char numJugador);
 int comprobarMas3Num(int vec[], int tam, int puntaje);
 int comprobarCantDado(int vec[], int pos, int cant, int puntaje);
 int comprobarEscalera(int vec[], int tam, int puntaje);

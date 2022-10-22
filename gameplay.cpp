@@ -4,10 +4,16 @@
 #include "funciones.h"
 #include "menu.h"
 #include "gameplay.h"
+#include "dibujardados.h"
 
-std::string ingreseNombre() {
+std::string ingreseNombre(char numJugador) {
     std::string nombreJug;
-    std::cout << "Ingrese nombre del jugador: ";
+    if (numJugador==0) {
+        std::cout << "Ingrese nombre del jugador: ";
+    }
+    else {
+        std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
+    }
     std::cin >> nombreJug;
 
     return nombreJug;
@@ -75,7 +81,7 @@ int cantNumDados(int vec[], int tam) {
 
 void tiradaDados(int vec[],int tam) {
     cargarVectorRandom(vec,tam,tam);
-    mostrarVec(vec,tam);
+    dibujarDados(vec,tam);
 }
 
 bool continuarLanzando() {
@@ -134,7 +140,7 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
 
 void modoUnJugador() {
     std::string nombreJug;
-    nombreJug = ingreseNombre();
+    nombreJug = ingreseNombre((char)0);
 
     int ronda, puntajeTotal, puntajeObt;
     ronda = 1;
