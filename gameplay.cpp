@@ -63,7 +63,7 @@ void nombrePuntaje (int posicionPunt, int puntaje) {
     rlutil::locate(2,16);
     switch (posicionPunt) {
         case 0:
-            std::cout << "OBTUVISTE UN SEXTETO!";
+            std::cout << "OBTUVISTE UN SEXTETO! GANASTE LA PARTIDA!!";
             break;
         case 1:
             std::cout << "OBTUVISTE UN TRÍO 1 AMPLIADO! +" << puntaje << " PUNTOS";
@@ -180,13 +180,24 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
     while (continuar) {
         interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
         tiradaDados(dados,6);
+        rlutil::locate(2,20);
         mostrarVec(dados,6);
 
         int puntaje=sacarPuntaje(dados,6);
 
         if (puntaje!=0) {
-            puntosRonda+=puntaje;
-            continuar = continuarLanzando();
+            if (puntaje == 10000){
+                puntosRonda = 10000;
+                rlutil::locate(2,17);
+                std::cout << "Presione una tecla para continuar.";
+                continuar = false;
+                rlutil::anykey();
+                rlutil::anykey();
+            }
+            else {
+                puntosRonda+=puntaje;
+                continuar = continuarLanzando();
+            }
         }
         else {
             continuar=false;
@@ -204,19 +215,24 @@ void modoUnJugador() {
     nombreJug = ingreseNombre(0);
 
     int ronda, puntajeTotal, puntajeObt;
-    ronda = 1;
+    ronda = 0;
     puntajeTotal = 0;
 
-    while (ronda <= 10 && puntajeTotal != 10000) {
+    while (ronda < 10 && puntajeTotal != 10000) {
+        ronda++;
         puntajeObt = lanzamiento(ronda,puntajeTotal,nombreJug);
         puntajeTotal += puntajeObt;
 
+        if (puntajeObt == 10000) {
+            puntajeTotal= 10000;
+        }
         if (puntajeTotal > 10000) {
             puntajeTotal-=puntajeObt;
         }
-        ronda++;
     }
+    rlutil::cls();
     linea();
-    std::cout << "Puntaje obtenido por "<< nombreJug << ": " << puntajeTotal<< "\n";
+    std::cout << "Puntaje obtenido por "<< nombreJug << ": " << puntajeTotal<< " en ronda " << ronda << "\n";
     linea();
+    rlutil::anykey();
 }
