@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="dibujardados.cpp" />
+		<Unit filename="dibujardados.h" />
 		<Unit filename="funciones.cpp" />
 		<Unit filename="funciones.h" />
 		<Unit filename="gameplay.cpp" />

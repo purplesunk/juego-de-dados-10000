@@ -6,20 +6,27 @@
 #include "gameplay.h"
 #include "dibujardados.h"
 
-std::string ingreseNombre(char numJugador) {
+std::string ingreseNombre(int numJugador) {
+    int centrox = rlutil::tcols()/2;
+    int centroy = rlutil::trows()/2;
     std::string nombreJug;
     if (numJugador==0) {
+        rlutil::locate(centrox-13, centroy-1);
         std::cout << "Ingrese nombre del jugador: ";
     }
     else {
+        rlutil::locate(centrox-14, centroy-1);
         std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
     }
+    rlutil::locate(centrox, centroy+1);
+    rlutil::showcursor();
     std::cin >> nombreJug;
-
+    rlutil::hidecursor();
+    rlutil::cls();
     return nombreJug;
 }
 
-int comprobarMas3Num(int vec[], int tam, int puntaje) {
+int comprobar3Num(int vec[], int tam, int puntaje) {
     int maximo=0;
     for (int i=0; i<tam; i++) {
         if ((vec[i]>=3) && (i+1>maximo)) {
@@ -52,64 +59,117 @@ int comprobarEscalera(int vec[], int tam, int puntaje) {
     }
 }
 
-int sacarPuntaje(int vec[], int tam) {
-    int puntajeObtenido[10];
-    puntajeObtenido[0]=comprobarCantDado(vec, 1, 6, 10000);
-    puntajeObtenido[1]=comprobarCantDado(vec, 1, 5, 2000);
-    puntajeObtenido[2]=comprobarCantDado(vec, 1, 4, 2000);
-    puntajeObtenido[3]=comprobarEscalera(vec, tam, 1500);
-    puntajeObtenido[4]=comprobarCantDado(vec, 1, 3, 1000);
-    puntajeObtenido[5]=comprobarMas3Num(vec, tam, 100);
-    puntajeObtenido[6]=comprobarCantDado(vec, 1, 2, 200);
-    puntajeObtenido[7]=comprobarCantDado(vec, 1, 1, 100);
-    puntajeObtenido[8]=comprobarCantDado(vec, 5, 2, 100);
-    puntajeObtenido[9]=comprobarCantDado(vec, 5, 1, 50);
-    return maxVector(puntajeObtenido,10);
+void nombrePuntaje (int posicionPunt, int puntaje) {
+    rlutil::locate(2,16);
+    switch (posicionPunt) {
+        case 0:
+            std::cout << "OBTUVISTE UN SEXTETO!";
+            break;
+        case 1:
+            std::cout << "OBTUVISTE UN TRÍO 1 AMPLIADO! +" << puntaje << " PUNTOS";
+            break;
+        case 2:
+            std::cout << "OBTUVISTE UN TRÍO 1 AMPLIADO! +" << puntaje << " PUNTOS";
+            break;
+        case 3:
+            std::cout << "OBTUVISTE UNA ESCALERA LARGA! +" << puntaje << " PUNTOS";
+            break;
+        case 4:
+            std::cout << "OBTUVISTE UN TRÍO 1! +" << puntaje << " PUNTOS";
+            break;
+        case 5:
+            std::cout << "OBTUVISTE UN TRÍO " << puntaje/100 << "++! +" << puntaje << " PUNTOS";
+            break;
+        case 6:
+            std::cout << "OBTUVISTE UN JUEGO DE UNO! +" << puntaje << " PUNTOS";
+            break;
+        case 7:
+            std::cout << "OBTUVISTE UN JUEGO DE UNO! +" << puntaje << " PUNTOS";
+            break;
+        case 8:
+            std::cout << "OBTUVISTE UN JUEGO DE CINCO! +" << puntaje << " PUNTOS";
+            break;
+        case 9:
+            std::cout << "OBTUVISTE UN JUEGO DE CINCO! +" << puntaje << " PUNTOS";
+            break;
+        default:
+            std::cout << "Perdió el puntaje acumulado en esta ronda, presione una tecla para continuar";
+    }
 }
 
-
-int cantNumDados(int vec[], int tam) {
-    int cantNumeros[6] = {};
+void cantNumDados(int vecNum[], int vecCant[], int tam) {
     int indice;
     for (int i=0; i<tam; i++) {
-        indice = vec[i]-1;
-        cantNumeros[indice]++;
+        indice = vecNum[i]-1;
+        vecCant[indice]++;
     }
-    return sacarPuntaje(cantNumeros,6);
+}
+
+int sacarPuntaje(int vec[], int tam) {
+    int cantNumeros[6] = {};
+    cantNumDados(vec, cantNumeros, tam);
+
+    int posiblePuntaje[10];
+
+    posiblePuntaje[0]=comprobarCantDado(cantNumeros, 1, 6, 10000);
+    posiblePuntaje[1]=comprobarCantDado(cantNumeros, 1, 5, 2000);
+    posiblePuntaje[2]=comprobarCantDado(cantNumeros, 1, 4, 2000);
+    posiblePuntaje[3]=comprobarEscalera(cantNumeros, tam, 1500);
+    posiblePuntaje[4]=comprobarCantDado(cantNumeros, 1, 3, 1000);
+    posiblePuntaje[5]=comprobar3Num(cantNumeros, tam, 100);
+    posiblePuntaje[6]=comprobarCantDado(cantNumeros, 1, 2, 200);
+    posiblePuntaje[7]=comprobarCantDado(cantNumeros, 1, 1, 100);
+    posiblePuntaje[8]=comprobarCantDado(cantNumeros, 5, 2, 100);
+    posiblePuntaje[9]=comprobarCantDado(cantNumeros, 5, 1, 50);
+
+    int indicePuntaje = (posMaxVector(posiblePuntaje,10))-1;
+    int puntajeObtenido = maxVector(posiblePuntaje,10);
+
+    nombrePuntaje(indicePuntaje, puntajeObtenido);
+    return puntajeObtenido;
 }
 
 
 void tiradaDados(int vec[],int tam) {
-    cargarVectorRandom(vec,tam,tam);
+    cargarVectorRandom(vec,tam,6);
     dibujarDados(vec,tam);
 }
 
 bool continuarLanzando() {
-    char siNo;
-    std::cout << "\n¿CONTINUAR LANZANDO (S/N)?";
-    std::cin >> siNo;
-
-    switch (siNo) {
-        case 'S':
-        case 's':
-            return true;
-        break;
-        case 'N':
-        case 'n':
-            return false;
-        break;
-    }
+    rlutil::locate(2,18);
+    std::cout << "¿CONTINUAR LANZANDO (S/N)?";
+    do {
+        switch (rlutil::getkey()) {
+            case 115:  // s o S
+            case 83:
+                return true;
+                break;
+            case 110:  // n o N
+            case 78:
+                return false;
+                break;
+        }
+    } while (true);
 }
 
 void interfazUnJugador(std::string nombreJug, int ronda, int puntajeTotal, int puntosRonda, int nroLanzamiento) {
-    linea();
-    std::cout << "Turno de " << nombreJug << "   ";
-    std::cout << "Ronda N° " << ronda << "   ";
-    std::cout << "Puntaje total: " << puntajeTotal << " puntos\n";
-    linea();
+    int tamañoHorizontal = rlutil::tcols();
+    int columna = tamañoHorizontal/4;
+
+    borrarDados(tamañoHorizontal);
+    drawCharLine(tamañoHorizontal,1,1,R"(—)");
+    rlutil::locate(2,2);
+    std::cout << "Turno de " << nombreJug;
+    rlutil::locate(columna,2);
+    std::cout << "Ronda N° " << ronda;
+    rlutil::locate(columna*2,2);
+    std::cout << "Puntaje total: " << puntajeTotal << " puntos";
+    drawCharLine(tamañoHorizontal,3,1,R"(—)");
+    rlutil::locate(2,4);
     std::cout << "Puntaje de ronda: " << puntosRonda;
-    std::cout << "\nLanzamiento N° " << nroLanzamiento << "\n";
-    linea();
+    rlutil::locate(columna*2,4);
+    std::cout << "Lanzamiento N° " << nroLanzamiento;
+    drawCharLine(tamañoHorizontal,5,1,R"(—)");
 }
 
 int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
@@ -118,17 +178,17 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
     bool continuar=true;
     int dados[6];
     while (continuar) {
-        rlutil::cls();
         interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
         tiradaDados(dados,6);
-        int puntaje=cantNumDados(dados,6);
+        mostrarVec(dados,6);
+
+        int puntaje=sacarPuntaje(dados,6);
+
         if (puntaje!=0) {
-            std::cout << " + " << puntaje << " PUNTOS\n";
             puntosRonda+=puntaje;
             continuar = continuarLanzando();
         }
         else {
-            std::cout << "Perdió el puntaje acumulado en esta ronda\n";
             continuar=false;
             rlutil::anykey();
             return 0;
@@ -139,8 +199,9 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
 }
 
 void modoUnJugador() {
+    rlutil::cls();
     std::string nombreJug;
-    nombreJug = ingreseNombre((char)0);
+    nombreJug = ingreseNombre(0);
 
     int ronda, puntajeTotal, puntajeObt;
     ronda = 1;
@@ -149,12 +210,11 @@ void modoUnJugador() {
     while (ronda <= 10 && puntajeTotal != 10000) {
         puntajeObt = lanzamiento(ronda,puntajeTotal,nombreJug);
         puntajeTotal += puntajeObt;
+
         if (puntajeTotal > 10000) {
             puntajeTotal-=puntajeObt;
         }
         ronda++;
-        std::cout << "Presione una tecla para continuar\n";
-        rlutil::anykey();
     }
     linea();
     std::cout << "Puntaje obtenido por "<< nombreJug << ": " << puntajeTotal<< "\n";
