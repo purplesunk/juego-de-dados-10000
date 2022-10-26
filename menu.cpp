@@ -52,7 +52,6 @@ void menu() {
         mostrarOpcion("   MEJORES PUNTAJES     ", centrox, centroy+2, y == 2);
         mostrarOpcion("   SALIR                ", centrox, centroy+3, y == 3);
 
-
         switch (rlutil::getkey()) {
             case 15:  // DOWN
             case 66:  // DOWN
