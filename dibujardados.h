@@ -3,5 +3,7 @@
 
 void dibujarDados(int vec[], int tam);
 void dibujarDado(int posx, int posy, int num);
+void drawCharLine(int tamLinea, int posy, int inicio,const char* forma);
+void borrarDados(int tamTerminal);
 
 #endif // DIBUJARDADOS_H_INCLUDED

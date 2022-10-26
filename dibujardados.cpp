@@ -11,6 +11,25 @@ void drawSqrBottom() {
     std::cout << R"(▄)";
 }
 
+void drawHalfLine(int cantx, int posy, int inicio,  bool top = false) {
+    for (int i=inicio; i<=cantx; i++) {
+        rlutil::locate(i,posy);
+        if (top) {
+            drawSqrTop();
+        }
+        else {
+            drawSqrBottom();
+        }
+    }
+}
+
+void drawCharLine(int tamLinea, int posy, int inicio, const char* forma) {
+    for (int i=inicio; i<=tamLinea; i++) {
+        rlutil::locate(i,posy);
+        std::cout << forma;
+    }
+}
+
 void drawUno(int posx, int posy) {
     rlutil::locate(posx+3,posy+1);
     drawSqrTop();
@@ -72,26 +91,7 @@ void elegirNumero(int posx, int posy, int num) {
     }
 }
 
-void drawHalfLine(int cantx, int posy, int inicio,  bool top = false) {
-    for (int i=inicio; i<=cantx; i++) {
-        rlutil::locate(i,posy);
-        if (top) {
-            drawSqrTop();
-        }
-        else {
-            drawSqrBottom();
-        }
-    }
-}
-
-void drawBlankLine(int cantx, int posy, int inicio) {
-    for (int i=inicio; i<=cantx; i++) {
-        rlutil::locate(i,posy);
-        std::cout << " " << "\n";
-    }
-}
-
-void dibujarDado(int posx, int posy, int num) {
+void drawCuadrado(int posx, int posy) {
     // forma principal:
     rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::locate(posx,posy);
@@ -106,10 +106,12 @@ void dibujarDado(int posx, int posy, int num) {
     rlutil::setColor(rlutil::BLACK);
     drawHalfLine(posx,posy+2,posx);
 
+    rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::setColor(rlutil::BLUE);
     drawHalfLine(posx+7,posy+2,posx+1);
 
     rlutil::setBackgroundColor(rlutil::BLACK);
+    rlutil::setColor(rlutil::BLUE);
     rlutil::locate(posx+7,posy);
     drawSqrBottom();
 
@@ -118,22 +120,36 @@ void dibujarDado(int posx, int posy, int num) {
     std::cout << " ";
     rlutil::locate(posx+7,posy+2);
     std::cout << " ";
+}
 
+void dibujarDado(int posx, int posy, int num) {
+    drawCuadrado(posx, posy);
 
-    // numero del dado:
     rlutil::setColor(rlutil::BLACK);
     rlutil::setBackgroundColor(rlutil::CYAN);
     elegirNumero(posx, posy, num);
 
-    // resetear los colores:
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::WHITE);
 }
 
 void dibujarDados(int vec[], int tam) {
-    int x=rlutil::tcols()/(tam*3);
+    int espacioParaDado=rlutil::tcols()/(tam*3);
+    int inicioVert=7;
+    int borde = 5;
+
     for (int i=0; i<tam; i++) {
-        dibujarDado(rand()%x+5+(x+7)*i,rand()%3+10,vec[i]);
+        int inicioEspacio=(espacioParaDado+7)*i;
+        int posx=rand()%espacioParaDado+borde+inicioEspacio;
+        int posy=rand()%5+inicioVert;
+
+        dibujarDado(posx,posy,vec[i]);
+    }
+}
+
+void borrarDados(int tamTerminal) {
+    for (int i=1; i<18; i++) {
+        drawCharLine(tamTerminal,i,1," ");
     }
 }
 
@@ -151,7 +167,7 @@ int main() {
         rlutil::anykey();
 
         for (int i=10; i<16; i++) {
-            drawBlankLine(x*18,i,5);
+            drawCharLine(x*18,i,5,(char)32);
         }
 
         rlutil::anykey();
