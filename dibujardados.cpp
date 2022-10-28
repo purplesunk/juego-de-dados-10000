@@ -148,7 +148,7 @@ void dibujarDados(int vec[], int tam) {
 }
 
 void borrarDados(int tamTerminal) {
-    for (int i=1; i<18; i++) {
+    for (int i=1; i<22; i++) {
         drawCharLine(tamTerminal,i,1," ");
     }
 }

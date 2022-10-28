@@ -59,11 +59,11 @@ int comprobarEscalera(int vec[], int tam, int puntaje) {
     }
 }
 
-void nombrePuntaje (int posicionPunt, int puntaje) {
+void nombrePuntaje (int indicePuntaje, int puntaje) {
     rlutil::locate(2,16);
-    switch (posicionPunt) {
+    switch (indicePuntaje) {
         case 0:
-            std::cout << "OBTUVISTE UN SEXTETO! GANASTE LA PARTIDA!!";
+            std::cout << "OBTUVISTE UN SEXTETO!";
             break;
         case 1:
             std::cout << "OBTUVISTE UN TRÍO 1 AMPLIADO! +" << puntaje << " PUNTOS";
@@ -92,8 +92,9 @@ void nombrePuntaje (int posicionPunt, int puntaje) {
         case 9:
             std::cout << "OBTUVISTE UN JUEGO DE CINCO! +" << puntaje << " PUNTOS";
             break;
-        default:
-            std::cout << "Perdió el puntaje acumulado en esta ronda, presione una tecla para continuar";
+        case 10:
+            std::cout << "Perdió el puntaje acumulado en esta ronda\n Presione una tecla para continuar";
+            break;
     }
 }
 
@@ -105,7 +106,7 @@ void cantNumDados(int vecNum[], int vecCant[], int tam) {
     }
 }
 
-int sacarPuntaje(int vec[], int tam) {
+int sacarPuntajeTirada(int vec[], int tam) {
     int cantNumeros[6] = {};
     cantNumDados(vec, cantNumeros, tam);
 
@@ -122,8 +123,12 @@ int sacarPuntaje(int vec[], int tam) {
     posiblePuntaje[8]=comprobarCantDado(cantNumeros, 5, 2, 100);
     posiblePuntaje[9]=comprobarCantDado(cantNumeros, 5, 1, 50);
 
-    int indicePuntaje = (posMaxVector(posiblePuntaje,10))-1;
     int puntajeObtenido = maxVector(posiblePuntaje,10);
+    int indicePuntaje = 10;
+
+    if (puntajeObtenido != 0) {
+        indicePuntaje = (posMaxVector(posiblePuntaje,10))-1;
+    }
 
     nombrePuntaje(indicePuntaje, puntajeObtenido);
     return puntajeObtenido;
@@ -161,9 +166,9 @@ void interfazUnJugador(std::string nombreJug, int ronda, int puntajeTotal, int p
     rlutil::locate(2,2);
     std::cout << "Turno de " << nombreJug;
     rlutil::locate(columna,2);
-    std::cout << "Ronda N° " << ronda;
+    std::cout << "\tRonda N° " << ronda;
     rlutil::locate(columna*2,2);
-    std::cout << "Puntaje total: " << puntajeTotal << " puntos";
+    std::cout << "\tPuntaje total: " << puntajeTotal << " puntos";
     drawCharLine(tamañoHorizontal,3,1,R"(—)");
     rlutil::locate(2,4);
     std::cout << "Puntaje de ronda: " << puntosRonda;
@@ -173,28 +178,35 @@ void interfazUnJugador(std::string nombreJug, int ronda, int puntajeTotal, int p
 }
 
 int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
-    int puntosRonda=0;
     int nroLanzamiento=1;
-    bool continuar=true;
+    int puntosRonda=0;
     int dados[6];
+
+    bool continuar=true;
     while (continuar) {
         interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
         tiradaDados(dados,6);
+
+        // para ver los numero despues hay que borrarlo:
         rlutil::locate(2,20);
         mostrarVec(dados,6);
 
-        int puntaje=sacarPuntaje(dados,6);
+        int puntaje=sacarPuntajeTirada(dados,6);
+        int puntajeFinal = puntajeTotal + puntaje;
 
         if (puntaje!=0) {
-            if (puntaje == 10000){
-                puntosRonda = 10000;
+            if (puntaje == 10000 || puntajeFinal==10000) {
                 rlutil::locate(2,17);
-                std::cout << "Presione una tecla para continuar.";
+                std::cout <<  "GANASTE LA PARTIDA!!\n Presione una tecla para continuar.";
+                puntosRonda = -1;
                 continuar = false;
                 rlutil::anykey();
                 rlutil::anykey();
             }
             else {
+                if (puntajeFinal > 10000) {
+                    puntaje = 0;
+                }
                 puntosRonda+=puntaje;
                 continuar = continuarLanzando();
             }
@@ -223,7 +235,7 @@ void modoUnJugador() {
         puntajeObt = lanzamiento(ronda,puntajeTotal,nombreJug);
         puntajeTotal += puntajeObt;
 
-        if (puntajeObt == 10000) {
+        if (puntajeObt == -1) {
             puntajeTotal= 10000;
         }
         if (puntajeTotal > 10000) {
