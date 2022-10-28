@@ -1,129 +1,92 @@
 #include <iostream>
-#include <ctime>
 #include "rlutil.h"
 #include "dibujardados.h"
 
-void drawSqrTop() {
-    std::cout << char(223);
+void dibujarUno(int posx, int posy) {
+    dibujarLinea(posx+3,posy+1,1,char(223));
 }
 
-void drawSqrBottom() {
-    std::cout << char(220);
+void dibujarDos(int posx, int posy) {
+    dibujarLinea(posx+1,posy,1,char(220));
+    dibujarLinea(posx+5,posy+1,1,char(220));
 }
 
-void drawHalfLine(int cantx, int posy, int inicio,  bool top = false) {
-    for (int i=inicio; i<=cantx; i++) {
-        rlutil::locate(i,posy);
-        if (top) {
-            drawSqrTop();
-        }
-        else {
-            drawSqrBottom();
-        }
-    }
+void dibujarTres(int posx, int posy) {
+    dibujarUno(posx, posy);
+    dibujarDos(posx, posy);
 }
 
-void drawCharLine(int tamLinea, int posy, int inicio, char forma) {
-    for (int i=inicio; i<=tamLinea; i++) {
-        rlutil::locate(i,posy);
-        std::cout << forma;
-    }
+void dibujarCuatro(int posx, int posy) {
+    dibujarDos(posx, posy);
+    dibujarLinea(posx+5,posy,1,char(220));
+    dibujarLinea(posx+1,posy+1,1,char(220));
 }
 
-void drawUno(int posx, int posy) {
-    rlutil::locate(posx+3,posy+1);
-    drawSqrTop();
+void dibujarCinco(int posx, int posy) {
+    dibujarUno(posx, posy);
+    dibujarCuatro(posx, posy);
 }
 
-void drawDos(int posx, int posy) {
-    rlutil::locate(posx+1,posy);
-    drawSqrBottom();
-    rlutil::locate(posx+5,posy+1);
-    drawSqrBottom();
-}
-
-void drawTres(int posx, int posy) {
-    drawUno(posx, posy);
-    drawDos(posx, posy);
-}
-
-void drawCuatro(int posx, int posy) {
-    drawDos(posx, posy);
-    rlutil::locate(posx+5,posy);
-    drawSqrBottom();
-    rlutil::locate(posx+1,posy+1);
-    drawSqrBottom();
-}
-
-void drawCinco(int posx, int posy) {
-    drawUno(posx, posy);
-    drawCuatro(posx, posy);
-}
-
-void drawSeis(int posx, int posy) {
-    drawCuatro(posx, posy);
-    rlutil::locate(posx+3,posy);
-    drawSqrBottom();
-    rlutil::locate(posx+3,posy+1);
-    drawSqrBottom();
+void dibujarSeis(int posx, int posy) {
+    dibujarCuatro(posx, posy);
+    dibujarLinea(posx+3,posy,1,char(220));
+    dibujarLinea(posx+3,posy+1,1,char(220));
 }
 
 void elegirNumero(int posx, int posy, int num) {
     switch (num) {
         case 1:
-            drawUno(posx, posy);
+            dibujarUno(posx, posy);
             break;
         case 2:
-            drawDos(posx, posy);
+            dibujarDos(posx, posy);
             break;
         case 3:
-            drawTres(posx, posy);
+            dibujarTres(posx, posy);
             break;
         case 4:
-            drawCuatro(posx, posy);
+            dibujarCuatro(posx, posy);
             break;
         case 5:
-            drawCinco(posx, posy);
+            dibujarCinco(posx, posy);
             break;
         case 6:
-            drawSeis(posx, posy);
+            dibujarSeis(posx, posy);
             break;
     }
 }
 
-void drawCuadrado(int posx, int posy) {
-    // forma principal:
-    rlutil::setBackgroundColor(rlutil::CYAN);
-    rlutil::locate(posx,posy);
-    std::cout << "       " << "\n";
-    rlutil::locate(posx,posy+1);
-    std::cout << "       " << "\n";
-    rlutil::locate(posx,posy+2);
-    std::cout << "       " << "\n";
-
-    // sombra:
+void dibujarSombraCuadrado(int posx, int posy) {
+    char cuadradoAbajo = 220;
+    char espacio = 32;
     rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::setColor(rlutil::BLACK);
-    drawHalfLine(posx,posy+2,posx);
+    dibujarLinea(posx,posy+2,1,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::setColor(rlutil::BLUE);
-    drawHalfLine(posx+7,posy+2,posx+1);
+    dibujarLinea(posx+1,posy+2,6,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::BLUE);
-    rlutil::locate(posx+7,posy);
-    drawSqrBottom();
+    dibujarLinea(posx+7,posy,1,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::BLUE);
-    rlutil::locate(posx+7,posy+1);
-    std::cout << " ";
-    rlutil::locate(posx+7,posy+2);
-    std::cout << " ";
+    dibujarLinea(posx+7,posy+1,1,espacio);
+    dibujarLinea(posx+7,posy+2,1,espacio);
+}
+
+void dibujarFormaDado(int posx, int posy) {
+    rlutil::setBackgroundColor(rlutil::CYAN);
+    dibujarLinea(posx,posy,7,char(32));
+    dibujarLinea(posx,posy+1,7,char(32));
+    dibujarLinea(posx,posy+2,7,char(32));
+
+    dibujarSombraCuadrado(posx, posy);
 }
 
 void dibujarDado(int posx, int posy, int num) {
-    drawCuadrado(posx, posy);
+    dibujarFormaDado(posx, posy);
 
     rlutil::setColor(rlutil::BLACK);
     rlutil::setBackgroundColor(rlutil::CYAN);
@@ -133,48 +96,21 @@ void dibujarDado(int posx, int posy, int num) {
     rlutil::setColor(rlutil::WHITE);
 }
 
-void dibujarDados(int vec[], int tam) {
-    int espacioParaDado=rlutil::tcols()/(tam*3);
-    int inicioVert=7;
-    int borde = 5;
+void dibujarDados(int posx, int posy, int vec[], int cantDados) {
+    int espacioParaDado=rlutil::tcols()/(cantDados*3);
+    int gap = 5;
 
-    for (int i=0; i<tam; i++) {
-        int inicioEspacio=(espacioParaDado+7)*i;
-        int posx=rand()%espacioParaDado+borde+inicioEspacio;
-        int posy=rand()%5+inicioVert;
+    for (int i=0; i<cantDados; i++) {
+        int inicioEspacio=posx+(espacioParaDado+7)*i;
+        int posXdado=rand()%espacioParaDado+gap+inicioEspacio;
+        int posYdado=rand()%5+posy;
 
-        dibujarDado(posx,posy,vec[i]);
+        dibujarDado(posXdado,posYdado,vec[i]);
     }
 }
 
 void borrarDados(int tamTerminal) {
     for (int i=1; i<22; i++) {
-        drawCharLine(tamTerminal,i,1,' ');
+        dibujarLinea(1,i,tamTerminal,char(32));
     }
 }
-
-/* PRUEBA DE DADOS
-int main() {
-    rlutil::hidecursor();
-    srand(time(NULL));
-
-    while (true) {
-        int x=rlutil::tcols()/18;
-        for (int i=0; i<6; i++) {
-            dibujarDado(rand()%x+5+(x+7)*i,rand()%3+10,rand()%6+1);
-        }
-
-        rlutil::anykey();
-
-        for (int i=10; i<16; i++) {
-            drawCharLine(x*18,i,5,(char)32);
-        }
-
-        rlutil::anykey();
-        //rlutil::cls();
-    }
-
-
-    return 0;
-}
-*/

@@ -1,28 +1,11 @@
 #include <iostream>
 #include "rlutil.h"
-#include "funciones.h"
 #include "menu.h"
 #include "gameplay.h"
 
 void setDefault() {
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::WHITE);
-}
-
-void opcionElegida(int opcion) {
-    switch (opcion) {
-        case 1:
-            modoUnJugador();
-            break;
-        case 2:
-            rlutil::cls();
-            std::cout << char(220);
-            rlutil::anykey();
-            break;
-        case 3:
-            std::cout << "Mejores Puntajes\n";
-            break;
-    }
 }
 
 void mostrarOpcion(const char* texto, int posx, int posy, bool seleccionado) {
@@ -40,10 +23,16 @@ void mostrarOpcion(const char* texto, int posx, int posy, bool seleccionado) {
     }
 }
 
-void menu() {
-    int opcion = 1, y = 0;
+int menu() {
+    int opcion = 1;
+    int y = 0;
     int centrox = (rlutil::tcols()/2)-12;
     int centroy = (rlutil::trows()/2)-2;
+
+    int mejorPuntaje = 0;
+    int rondaMejorPuntaje = 0;
+    char nombreMejorPuntaje[10];
+    char apellidoMejorPuntaje[10];
 
     do {
         setDefault();
@@ -55,8 +44,8 @@ void menu() {
         mostrarOpcion("   SALIR                ", centrox, centroy+3, y == 3);
 
         switch (rlutil::getkey()) {
-            case 15:  // DOWN
-            case 66:  // DOWN
+            case 15:  // ABAJO
+            case 66:  // ABAJO
                 y++;
                 if (y>3) {
                     y=3;
@@ -73,26 +62,24 @@ void menu() {
             case 10: // ENTER
                 switch(y){
                     case 0:
-                        opcion=1;
-                        opcionElegida(opcion);
-                        rlutil::cls();
+                        modoUnJugador();
                         break;
                     case 1:
-                        opcion=2;
-                        opcionElegida(opcion);
                         rlutil::cls();
+                        std::cout << char(220);
+                        rlutil::anykey();
                         break;
                     case 2:
-                        opcion=3;
-                        opcionElegida(opcion);
-                        rlutil::cls();
+                        std::cout << "Mejores Puntajes\n";
                         break;
                     case 3:
-                        opcion=0;
+                        setDefault();
+                        rlutil::cls();
+                        return 0;
                         break;
                 }
                 break;
         }
 
-    } while (opcion!=0);
+    } while (true);
 }

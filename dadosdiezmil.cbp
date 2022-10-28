@@ -38,6 +38,8 @@
 		<Unit filename="funciones.h" />
 		<Unit filename="gameplay.cpp" />
 		<Unit filename="gameplay.h" />
+		<Unit filename="interfaz.cpp" />
+		<Unit filename="interfaz.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="menu.cpp" />
 		<Unit filename="menu.h" />
