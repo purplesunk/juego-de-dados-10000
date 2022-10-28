@@ -158,23 +158,23 @@ bool continuarLanzando() {
 }
 
 void interfazUnJugador(std::string nombreJug, int ronda, int puntajeTotal, int puntosRonda, int nroLanzamiento) {
-    int tamañoHorizontal = rlutil::tcols();
-    int columna = tamañoHorizontal/4;
+    int tamHorizontal = rlutil::tcols();
+    int columna = tamHorizontal/4;
 
-    borrarDados(tamañoHorizontal);
-    drawCharLine(tamañoHorizontal,1,1,R"(—)");
+    borrarDados(tamHorizontal);
+    drawCharLine(tamHorizontal,1,1,char(205));
     rlutil::locate(2,2);
     std::cout << "Turno de " << nombreJug;
     rlutil::locate(columna,2);
     std::cout << "\tRonda N° " << ronda;
     rlutil::locate(columna*2,2);
     std::cout << "\tPuntaje total: " << puntajeTotal << " puntos";
-    drawCharLine(tamañoHorizontal,3,1,R"(—)");
+    drawCharLine(tamHorizontal,3,1,char(205));
     rlutil::locate(2,4);
     std::cout << "Puntaje de ronda: " << puntosRonda;
     rlutil::locate(columna*2,4);
     std::cout << "Lanzamiento N° " << nroLanzamiento;
-    drawCharLine(tamañoHorizontal,5,1,R"(—)");
+    drawCharLine(tamHorizontal,5,1,char(205));
 }
 
 int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {

@@ -4,11 +4,11 @@
 #include "dibujardados.h"
 
 void drawSqrTop() {
-    std::cout << R"(▀)";
+    std::cout << char(223);
 }
 
 void drawSqrBottom() {
-    std::cout << R"(▄)";
+    std::cout << char(220);
 }
 
 void drawHalfLine(int cantx, int posy, int inicio,  bool top = false) {
@@ -23,7 +23,7 @@ void drawHalfLine(int cantx, int posy, int inicio,  bool top = false) {
     }
 }
 
-void drawCharLine(int tamLinea, int posy, int inicio, const char* forma) {
+void drawCharLine(int tamLinea, int posy, int inicio, char forma) {
     for (int i=inicio; i<=tamLinea; i++) {
         rlutil::locate(i,posy);
         std::cout << forma;
@@ -149,7 +149,7 @@ void dibujarDados(int vec[], int tam) {
 
 void borrarDados(int tamTerminal) {
     for (int i=1; i<22; i++) {
-        drawCharLine(tamTerminal,i,1," ");
+        drawCharLine(tamTerminal,i,1,' ');
     }
 }
 

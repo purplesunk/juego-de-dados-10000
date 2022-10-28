@@ -15,7 +15,9 @@ void opcionElegida(int opcion) {
             modoUnJugador();
             break;
         case 2:
-            std::cout << "ModoDosJugadores\n";
+            rlutil::cls();
+            std::cout << char(220);
+            rlutil::anykey();
             break;
         case 3:
             std::cout << "Mejores Puntajes\n";

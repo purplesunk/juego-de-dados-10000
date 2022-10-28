@@ -7,6 +7,7 @@
 #include "gameplay.h"
 
 int main() {
+    setlocale(LC_ALL, "");
     srand(time(NULL));
     menu();
     return 0;
