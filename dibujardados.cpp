@@ -101,6 +101,7 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
     int gap = 5;
 
     for (int i=0; i<cantDados; i++) {
+        //rlutil::msleep(100);
         int inicioEspacio=posx+(espacioParaDado+7)*i;
         int posXdado=rand()%espacioParaDado+gap+inicioEspacio;
         int posYdado=rand()%5+posy;
@@ -110,7 +111,7 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
 }
 
 void borrarDados(int tamTerminal) {
-    for (int i=1; i<22; i++) {
+    for (int i=9; i<22; i++) {
         dibujarLinea(1,i,tamTerminal,char(32));
     }
 }
