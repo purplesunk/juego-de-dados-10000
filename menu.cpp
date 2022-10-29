@@ -39,13 +39,14 @@ int menu() {
     int centrox = (rlutil::tcols()/2)-12;
     int centroy = (rlutil::trows()/2)-2;
 
-    int mejorPuntaje[2];
+    //int mejorPuntaje[3];
+    //char nombreMejorPuntaje[25];
 
     do {
         setDefault();
         rlutil::hidecursor();
 
-        mostrarOpcion("   MODO UN JUGADOR      ", centrox, centroy, y == 0);
+        mostrarOpcion("   MODO UN JUGADOR      ", centrox, centroy,   y == 0);
         mostrarOpcion("   MODO DOS JUGADORES   ", centrox, centroy+1, y == 1);
         mostrarOpcion("   MEJORES PUNTAJES     ", centrox, centroy+2, y == 2);
         mostrarOpcion("   SALIR                ", centrox, centroy+3, y == 3);
@@ -76,29 +77,50 @@ int menu() {
                 rlutil::cls();
                 setDefault();
                 switch(y){
-                    case Opciones::MODO_UN_JUGADOR:
+                    case Opciones::MODO_UN_JUGADOR: {
+
+
+
                         char nombreJugador[25];
                         char nombre[15];
                         char apellido[15];
                         ingreseNombre(nombre, apellido, nombreJugador, 0);
 
-                        //dibujarInterfaz(nombre, ronda, etc);?
+                        int rondaLazamiento[2]={};
 
-                        modoUnJugador();
+                        int puntaje;
 
-                        break;
+                        puntaje =  modoUnJugador(nombre, rondaLazamiento);
 
-                    case Opciones::MODO_DOS_JUGADORES:
-                        break;
+                        // comparar puntaje con mejorPuntaje
 
-                    case Opciones::MEJOR_PUNTAJE:
-                        break;
+                    }
+                    break;
 
-                    case Opciones::SALIR:
+                    case Opciones::MODO_DOS_JUGADORES: {
+                        dibujarCaja(3,2,10,4);
+                        dibujarCajaTitulo(15,6,20,5,"asdasddsddd d");
+                        dibujarCajaTitulo(40,10,10,0,"hola xdxd");
+                        rlutil::anykey();
+                        rlutil::cls();
+
+                    }
+                    break;
+
+                    case Opciones::MEJOR_PUNTAJE: {
+                        rlutil::cls();
+                        dibujarCajaTitulo(centrox,centroy,24,2,"MEJOR PUNTAJE");
+                        rlutil::anykey();
+                        rlutil::cls();
+                    }
+                    break;
+
+                    case Opciones::SALIR: {
                         setDefault();
                         rlutil::cls();
                         return 0;
-                        break;
+                    }
+                    break;
                 }
                 break;
         }
