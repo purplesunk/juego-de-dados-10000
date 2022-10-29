@@ -1,5 +1,5 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 #include "rlutil.h"
 #include "funciones.h"
 #include "menu.h"
@@ -104,22 +104,23 @@ int sacarPuntajeTirada(int vec[], int tam) {
 
 void tiradaDados(int vec[],int tam) {
     cargarVectorRandom(vec,tam,6);
-    dibujarDados(5,7,vec,6);
+    dibujarDados(5,10,vec,6);
 }
 
 
-int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
+int lanzamiento(int ronda, int puntajeTotal) {
     int nroLanzamiento=1;
     int puntosRonda=0;
     int dados[6];
 
     bool continuar=true;
     while (continuar) {
-        interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
+        //interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
+        dibujarDatos(40, 4, "LANZAMIENTO: ", nroLanzamiento, "PUNTOS DE RONDA: ", puntosRonda);
         tiradaDados(dados,6);
 
         // para ver los numero despues hay que borrarlo:
-        rlutil::locate(2,20);
+        rlutil::locate(2,22);
         mostrarVec(dados,6);
 
         int puntaje=sacarPuntajeTirada(dados,6);
@@ -145,24 +146,32 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
         else {
             continuar=false;
             rlutil::anykey();
+            borrarDados(100);
             return 0;
         }
+        borrarDados(100);
         nroLanzamiento++;
     }
     return puntosRonda;
 }
 
-void modoUnJugador() {
-    std::string nombreJug;
-    nombreJug = "hola";
+int modoUnJugador(char* nombre, int rondaLazamiento[]) {
+    int tamConsola=rlutil::tcols();
 
-    int ronda, puntajeTotal, puntajeObt;
-    ronda = 0;
+    dibujarCajaInfo(nombre, tamConsola);
+
+    int puntajeTotal, puntajeObt;
     puntajeTotal = 0;
 
-    while (ronda < 10 && puntajeTotal != 10000) {
-        ronda++;
-        puntajeObt = lanzamiento(ronda,puntajeTotal,nombreJug);
+    while (rondaLazamiento[0] < 10 && puntajeTotal != 10000) {
+
+        rondaLazamiento[0]++;
+
+        //mostrarDatosRonda(rondaLazamiento[0], puntajeTotal);
+        dibujarDatos( 3, 4, "RONDA: ", rondaLazamiento[0], "PUNTAJE TOTAL: ", puntajeTotal);
+
+        puntajeObt = lanzamiento(rondaLazamiento[0],puntajeTotal);
+
         puntajeTotal += puntajeObt;
 
         if (puntajeObt == -1) {
@@ -173,7 +182,7 @@ void modoUnJugador() {
         }
     }
     rlutil::cls();
-    std::cout << "Puntaje obtenido por "<< nombreJug << ": " << puntajeTotal<< " en ronda " << ronda << "\n";
+    std::cout << "Puntaje obtenido por "<< nombre << ": " << puntajeTotal << " en ronda " << rondaLazamiento[0] << "\n";
     // mostrarCadena nombreCompleto;
     // puntaje
     // lanzamientos o ronda;
@@ -181,4 +190,5 @@ void modoUnJugador() {
     // return el puntaje? o no o lo comparo afuera?
     rlutil::anykey();
     rlutil::cls();
+    return puntajeTotal;
 }
