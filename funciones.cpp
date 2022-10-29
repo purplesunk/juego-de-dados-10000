@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>
 #include "funciones.h"
 
 void cargarVectorRandom(int vec[], int tam, int limite) {
@@ -81,7 +82,7 @@ void cargarCadena(char *palabra, int tamano) {
 
     for (i=0; i<tamano; i++){
 
-        palabra[i]=cin.get();
+        palabra[i]=std::cin.get();
 
         if (palabra[i]=='\n'){
 
@@ -95,4 +96,59 @@ void cargarCadena(char *palabra, int tamano) {
 
     fflush(stdin);
 
+}
+
+void separarNombre(char *nombreCompleto, char *nombre, int tamNombre, char *apellido, int tamApellido) {
+
+    int j=0;
+
+    for (int i=0; i<tamNombre; i++) {
+
+        nombre[i] = nombreCompleto[j];
+
+        j++;
+
+        if (nombreCompleto[j] == char(32)) {
+
+            j++;
+
+            nombre[i]=='\0';
+
+            break;
+        }
+
+
+    }
+
+    for (int i=0; i<tamApellido; i++) {
+
+        apellido[i] = nombreCompleto[j];
+
+        j++;
+
+        if (nombreCompleto[j]=='\n'){
+
+            apellido[i]=='\0';
+
+            break;
+
+        }
+    }
+}
+
+void mostrarCadena(char *palabra, int tamano) {
+
+    for (int i=0; i<tamano; i++) {
+
+        std::cout << palabra[i];
+
+        if (palabra[i]=='\0'){
+
+            break;
+
+        }
+
+    }
+
+    std::cout << "\n";
 }

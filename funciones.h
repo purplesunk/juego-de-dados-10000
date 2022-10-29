@@ -7,5 +7,7 @@ void mostrarVec(int vec[], int tam);
 int maxVector(int vec[], int tam);
 int posMaxVector(int vec[], int tam);
 bool hayCeros(int vec[], int tam);
+void separarNombre(char *nombreCompleto, char *nombre, int tamNombre, char *apellido, int tamApellido);
+void mostrarCadena(char *palabra, int tamano);
 
 #endif // FUNCIONES_H_INCLUDED

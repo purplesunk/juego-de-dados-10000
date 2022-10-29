@@ -7,31 +7,16 @@
 #include "dibujardados.h"
 #include "interfaz.h"
 
-std::string ingreseNombre(int numJugador) {
-    int centrox = rlutil::tcols()/2;
-    int centroy = rlutil::trows()/2;
-    std::string nombreJug;
-    if (numJugador==0) {
-        rlutil::locate(centrox-13, centroy-1);
-        std::cout << "Ingrese nombre del jugador: ";
-    }
-    else {
-        rlutil::locate(centrox-14, centroy-1);
-        std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
-    }
-    rlutil::locate(centrox, centroy+1);
-    rlutil::showcursor();
-    std::cin >> nombreJug;
-    rlutil::hidecursor();
-    rlutil::cls();
-    return nombreJug;
-}
-
 int comprobar3Num(int vec[], int tam, int puntaje) {
+
     int maximo=0;
+
     for (int i=0; i<tam; i++) {
+
         if ((vec[i]>=3) && (i+1>maximo)) {
+
             maximo=i+1;
+
         }
     }
     if (maximo!=0) {
@@ -43,32 +28,48 @@ int comprobar3Num(int vec[], int tam, int puntaje) {
 }
 
 int comprobarCantDado(int vec[], int pos, int cant, int puntaje) {
+
     if (vec[pos-1]==cant) {
+
         return puntaje;
+
     }
     else {
+
         return 0;
+
     }
+
 }
 
 int comprobarEscalera(int vec[], int tam, int puntaje) {
+
     if (!hayCeros(vec,tam)) {
+
         return puntaje;
+
     }
     else {
+
         return 0;
+
     }
 }
 
 void cantNumDados(int vecNum[], int vecCant[], int tam) {
     int indice;
+
     for (int i=0; i<tam; i++) {
+
         indice = vecNum[i]-1;
+
         vecCant[indice]++;
+
     }
 }
 
 int sacarPuntajeTirada(int vec[], int tam) {
+
     int cantNumeros[6] = {};
     cantNumDados(vec, cantNumeros, tam);
 
@@ -86,13 +87,17 @@ int sacarPuntajeTirada(int vec[], int tam) {
     posiblePuntaje[9]=comprobarCantDado(cantNumeros, 5, 1, 50);
 
     int puntajeObtenido = maxVector(posiblePuntaje,10);
+
     int indicePuntaje = 10;
 
     if (puntajeObtenido != 0) {
+
         indicePuntaje = (posMaxVector(posiblePuntaje,10))-1;
+
     }
 
-    nombrePuntaje(indicePuntaje, puntajeObtenido);
+    mostrarPuntaje(indicePuntaje, puntajeObtenido);
+
     return puntajeObtenido;
 }
 
@@ -148,9 +153,8 @@ int lanzamiento(int ronda, int puntajeTotal, std::string nombreJug) {
 }
 
 void modoUnJugador() {
-    rlutil::cls();
     std::string nombreJug;
-    nombreJug = ingreseNombre(0);
+    nombreJug = "hola";
 
     int ronda, puntajeTotal, puntajeObt;
     ronda = 0;
@@ -170,5 +174,11 @@ void modoUnJugador() {
     }
     rlutil::cls();
     std::cout << "Puntaje obtenido por "<< nombreJug << ": " << puntajeTotal<< " en ronda " << ronda << "\n";
+    // mostrarCadena nombreCompleto;
+    // puntaje
+    // lanzamientos o ronda;
+    // comparar con el mejor puntaje y cambiarlo
+    // return el puntaje? o no o lo comparo afuera?
     rlutil::anykey();
+    rlutil::cls();
 }

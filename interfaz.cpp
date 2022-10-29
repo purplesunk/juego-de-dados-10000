@@ -2,6 +2,7 @@
 #include "rlutil.h"
 #include "interfaz.h"
 #include "dibujardados.h"
+#include "funciones.h"
 
 void dibujarLinea(int posx, int posy, int tam, char forma) {
     for (int i=posx; i<posx+tam; i++) {
@@ -10,7 +11,7 @@ void dibujarLinea(int posx, int posy, int tam, char forma) {
     }
 }
 
-void nombrePuntaje (int indicePuntaje, int puntaje) {
+void mostrarPuntaje (int indicePuntaje, int puntaje) {
     rlutil::locate(2,16);
     switch (indicePuntaje) {
         case 0:
@@ -81,4 +82,29 @@ void interfazUnJugador(std::string nombreJug, int ronda, int puntajeTotal, int p
     std::cout << "Puntaje de ronda: " << puntosRonda;
     rlutil::locate(columna*2,4);
     std::cout << "Lanzamiento N° " << nroLanzamiento;
+}
+
+void ingreseNombre(char *nombre, char *apellido, char *nombreJugador, int numJugador) {
+    int centrox = rlutil::tcols()/2;
+    int centroy = rlutil::trows()/2;
+    std::string nombreJug;
+    if (numJugador==0) {
+        rlutil::locate(centrox-13, centroy-1);
+        std::cout << "Ingrese nombre del jugador: ";
+    }
+    else {
+        rlutil::locate(centrox-14, centroy-1);
+        std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
+    }
+    rlutil::locate(centrox-10, centroy+1);
+    rlutil::showcursor();
+    cargarCadena(nombreJugador, 25);
+    separarNombre(nombreJugador, nombre, 15, apellido, 15);
+    mostrarCadena(nombre, 15);
+    mostrarCadena(apellido, 15);
+
+    rlutil::anykey();
+    rlutil::hidecursor();
+    rlutil::cls();
+
 }
