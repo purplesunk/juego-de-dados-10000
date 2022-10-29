@@ -98,57 +98,48 @@ void cargarCadena(char *palabra, int tamano) {
 
 }
 
+int copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarEn, char caracter) {
+
+    for (int i=0; i<tamanoCopia; i++) {
+
+        copia[i] = original[empezarEn];
+
+        empezarEn++;
+
+        if (original[empezarEn] == caracter) {
+
+            empezarEn++;
+
+            copia[i]='\0';
+
+            break;
+        }
+
+        if (i==tamanoCopia-1) {
+            copia[i]='\0';
+        }
+
+
+    }
+
+    return empezarEn;
+
+}
+
 void separarNombre(char *nombreCompleto, char *nombre, int tamNombre, char *apellido, int tamApellido) {
 
     int j=0;
 
-    for (int i=0; i<tamNombre; i++) {
+    j = copiarCadenaHasta(nombre, tamNombre, nombreCompleto, j, char(32));
 
-        nombre[i] = nombreCompleto[j];
+    j = copiarCadenaHasta(apellido, tamApellido, nombreCompleto, j, '\0');
 
-        j++;
-
-        if (nombreCompleto[j] == char(32)) {
-
-            j++;
-
-            nombre[i]=='\0';
-
-            break;
-        }
-
-
-    }
-
-    for (int i=0; i<tamApellido; i++) {
-
-        apellido[i] = nombreCompleto[j];
-
-        j++;
-
-        if (nombreCompleto[j]=='\n'){
-
-            apellido[i]=='\0';
-
-            break;
-
-        }
-    }
 }
 
-void mostrarCadena(char *palabra, int tamano) {
+void mostrarCadena(const char *palabra) {
 
-    for (int i=0; i<tamano; i++) {
+    std::cout << palabra;
 
-        std::cout << palabra[i];
-
-        if (palabra[i]=='\0'){
-
-            break;
-
-        }
-
-    }
 
     std::cout << "\n";
 }
