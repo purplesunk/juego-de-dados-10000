@@ -1,8 +1,6 @@
 #include <iostream>
 #include <cstring>
-#include <stdio.h>
-#include <string.h>
-#include<stdlib.h>
+#include <stdio_ext.h>
 #include "funciones.h"
 
 void cargarVectorRandom(int vec[], int tam, int limite) {
@@ -81,6 +79,7 @@ void cargarCadena(char *palabra, int tamano) {
 
     int i=0;
 
+    __fpurge(stdin);
     fflush(stdin);
 
     for (i=0; i<tamano; i++){
@@ -97,6 +96,7 @@ void cargarCadena(char *palabra, int tamano) {
 
     palabra[i]='\0';
 
+    __fpurge(stdin);
     fflush(stdin);
 
 }
