@@ -1,5 +1,6 @@
 #include <iostream>
 #include "rlutil.h"
+#include "menu.h"
 #include "dibujardados.h"
 
 void dibujarUno(int posx, int posy) {
@@ -56,44 +57,55 @@ void elegirNumero(int posx, int posy, int num) {
     }
 }
 
-void dibujarSombraCuadrado(int posx, int posy) {
+void dibujarSombraDado(int posx, int posy) {
+
     char cuadradoAbajo = 220;
     char espacio = 32;
+
     rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::setColor(rlutil::BLACK);
+
     dibujarLinea(posx,posy+2,1,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::CYAN);
     rlutil::setColor(rlutil::BLUE);
+
     dibujarLinea(posx+1,posy+2,6,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::BLACK);
     rlutil::setColor(rlutil::BLUE);
+
     dibujarLinea(posx+7,posy,1,cuadradoAbajo);
 
     rlutil::setBackgroundColor(rlutil::BLUE);
+
     dibujarLinea(posx+7,posy+1,1,espacio);
+
     dibujarLinea(posx+7,posy+2,1,espacio);
+
 }
 
 void dibujarFormaDado(int posx, int posy) {
+
     rlutil::setBackgroundColor(rlutil::CYAN);
+
     dibujarLinea(posx,posy,7,char(32));
     dibujarLinea(posx,posy+1,7,char(32));
     dibujarLinea(posx,posy+2,7,char(32));
 
-    dibujarSombraCuadrado(posx, posy);
 }
 
 void dibujarDado(int posx, int posy, int num) {
+
     dibujarFormaDado(posx, posy);
+    dibujarSombraDado(posx, posy);
 
     rlutil::setColor(rlutil::BLACK);
     rlutil::setBackgroundColor(rlutil::CYAN);
+
     elegirNumero(posx, posy, num);
 
-    rlutil::setBackgroundColor(rlutil::BLACK);
-    rlutil::setColor(rlutil::WHITE);
+    setDefault();
 }
 
 void dibujarDados(int posx, int posy, int vec[], int cantDados) {
@@ -101,17 +113,18 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
     int gap = 5;
 
     for (int i=0; i<cantDados; i++) {
-        //rlutil::msleep(100);
-        int inicioEspacio=posx+(espacioParaDado+7)*i;
-        int posXdado=rand()%espacioParaDado+gap+inicioEspacio;
-        int posYdado=rand()%5+posy;
+
+        int inicioEspacio = posx + (espacioParaDado+7) * i;
+
+        int posXdado = (rand()% espacioParaDado) + gap + inicioEspacio;
+        int posYdado = rand()%5 + posy;
 
         dibujarDado(posXdado,posYdado,vec[i]);
     }
 }
 
-void borrarDados(int tamTerminal) {
-    for (int i=9; i<22; i++) {
-        dibujarLinea(1,i,tamTerminal,char(32));
+void borrarDados() {
+    for (int i=9; i<18; i++) {
+        dibujarLinea(1,i,rlutil::tcols()-5,char(32));
     }
 }

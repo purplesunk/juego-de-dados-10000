@@ -4,6 +4,6 @@
 void dibujarDados(int posx,int posy, int vec[], int tam);
 void dibujarDado(int posx, int posy, int num);
 void dibujarLinea(int posx, int posy, int tam, char forma);
-void borrarDados(int tamTerminal);
+void borrarDados();
 
 #endif // DIBUJARDADOS_H_INCLUDED
