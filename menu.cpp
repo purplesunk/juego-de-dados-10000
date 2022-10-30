@@ -3,6 +3,7 @@
 #include "rlutil.h"
 #include "gameplay.h"
 #include "interfaz.h"
+#include "funciones.h"
 #include "menu.h"
 
 void setDefault() {
@@ -36,11 +37,16 @@ enum Opciones {
 int menu() {
     rlutil::cls();
     int y = 0;
-    int centrox = (rlutil::tcols()/2)-12;
-    int centroy = (rlutil::trows()/2)-2;
 
-    //int mejorPuntaje[3];
-    //char nombreMejorPuntaje[25];
+    int centroH = rlutil::tcols()/2;
+    int centroV = rlutil::trows()/2;
+
+    int centrox = centroH-12;
+    int centroy = centroV-2;
+
+    // 0 = puntaje, 1 = ronda, 2 = lanzamiento
+    int mejorPuntaje[3] {};
+    char nombreMejorPuntaje[30] = {};
 
     do {
         setDefault();
@@ -82,7 +88,7 @@ int menu() {
 
 
 
-                        char nombreJugador[25];
+                        char nombreJugador[30];
                         char nombre[15];
                         ingreseNombre(nombre, nombreJugador, 0);
 
@@ -92,15 +98,21 @@ int menu() {
 
                         puntaje =  modoUnJugador(nombre, rondaLazamiento);
 
-                        // comparar puntaje con mejorPuntaje
+                        mostrarPuntajeObtenido(centroH, centroV, nombreJugador, puntaje, rondaLazamiento[0], rondaLazamiento[1], " PUNTAJE OBTENIDO POR ");
+
+                        compararMejorPuntaje(nombreMejorPuntaje, mejorPuntaje, nombreJugador, puntaje, rondaLazamiento);
 
                     }
                     break;
 
                     case Opciones::MODO_DOS_JUGADORES: {
+
+
                         dibujarCaja(3,2,10,4);
-                        dibujarCajaTitulo(15,6,20,5,"asdasddsddd d");
-                        dibujarCajaTitulo(40,10,10,0,"hola xdxd");
+                        dibujarCajaTitulo(15,6,20,5,"Algun dia            ");
+                        dibujarCajaTitulo(40,10,10,0,"sera");
+
+
                         rlutil::anykey();
                         rlutil::cls();
 
@@ -109,9 +121,26 @@ int menu() {
 
                     case Opciones::MEJOR_PUNTAJE: {
                         rlutil::cls();
-                        dibujarCajaTitulo(centrox,centroy,24,2,"MEJOR PUNTAJE");
-                        rlutil::anykey();
-                        rlutil::cls();
+
+                        if (nombreMejorPuntaje[0] == '\0') {
+
+                            char aviso[] = "No se ha jugado ninguna partida.";
+
+                            rlutil::locate(centroH - (strlen(aviso)/2), centroV);
+                            std::cout << aviso;
+
+                            teclaParaContinuar(centroV+1);
+
+                            rlutil::cls();
+
+                        }
+                        else {
+
+                            mostrarPuntajeObtenido(centroH, centroV, nombreMejorPuntaje, mejorPuntaje[0], mejorPuntaje[1], mejorPuntaje[2], " MEJOR PUNTAJE POR ");
+
+                        }
+
+
                     }
                     break;
 
