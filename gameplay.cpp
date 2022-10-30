@@ -115,8 +115,9 @@ int lanzamiento(int ronda, int puntajeTotal) {
 
     bool continuar=true;
     while (continuar) {
-        //interfazUnJugador(nombreJug,ronda,puntajeTotal,puntosRonda,nroLanzamiento);
+
         dibujarDatos(40, 4, "LANZAMIENTO: ", nroLanzamiento, "PUNTOS DE RONDA: ", puntosRonda);
+
         tiradaDados(dados,6);
 
         // para ver los numero despues hay que borrarlo:
@@ -124,23 +125,34 @@ int lanzamiento(int ronda, int puntajeTotal) {
         mostrarVec(dados,6);
 
         int puntaje=sacarPuntajeTirada(dados,6);
+
         int puntajeFinal = puntajeTotal + puntaje;
 
         if (puntaje!=0) {
             if (puntaje == 10000 || puntajeFinal==10000) {
-                rlutil::locate(2,17);
+                rlutil::locate(2,20);
                 std::cout <<  "GANASTE LA PARTIDA!!\n Presione una tecla para continuar.";
                 puntosRonda = -1;
                 continuar = false;
                 rlutil::anykey();
                 rlutil::anykey();
+
+            }
+            else if (puntajeFinal > 10000) {
+
+                std::cout <<  "Te pasaste de los 10000, sigue en la ronda siguiente.\n Presione una tecla para continuar.";
+
+                continuar = false;
+
+                puntaje = 0;
+
             }
             else {
-                if (puntajeFinal > 10000) {
-                    puntaje = 0;
-                }
+
                 puntosRonda+=puntaje;
+
                 continuar = continuarLanzando();
+
             }
         }
         else {
