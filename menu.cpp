@@ -48,7 +48,7 @@ int menu() {
 
         mostrarOpcion("   MODO UN JUGADOR      ", centrox, centroy,   y == 0);
         mostrarOpcion("   MODO DOS JUGADORES   ", centrox, centroy+1, y == 1);
-        mostrarOpcion("   MEJORES PUNTAJES     ", centrox, centroy+2, y == 2);
+        mostrarOpcion("   MEJOR PUNTAJE        ", centrox, centroy+2, y == 2);
         mostrarOpcion("   SALIR                ", centrox, centroy+3, y == 3);
 
         switch (rlutil::getkey()) {
