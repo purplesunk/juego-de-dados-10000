@@ -4,6 +4,7 @@
 #include "interfaz.h"
 #include "dibujardados.h"
 #include "funciones.h"
+#include "menu.h"
 
 void dibujarLinea(int posx, int posy, int tam, char forma) {
     for (int i=posx; i<posx+tam; i++) {
@@ -68,10 +69,53 @@ bool continuarLanzando() {
     } while (true);
 }
 
-void ingreseNombre(char *nombre, char *apellido, char *nombreJugador, int numJugador) {
+/*
+bool continuarLanzando() {
+    rlutil::locate(2,20);
+    std::cout << "CONTINUAR LANZANDO?";
+
+    int x = 2;
+
+    do {
+
+        mostrarOpcion("  SI  ", 15, 23, x == 1);
+        mostrarOpcion("  NO  ", 55, 23, x == 2);
+
+
+        switch (rlutil::getkey()) {
+
+            case rlutil::KEY_LEFT:
+            case 68:
+                x = 1;
+                break;
+
+            case rlutil::KEY_RIGHT:
+            case 67:
+                x = 2;
+                break;
+
+            case rlutil::KEY_ENTER:
+            case 10:
+                setDefault();
+                switch (x) {
+                    case 1:
+                        return true;
+                        break;
+                    case 2:
+                        return false;
+                        break;
+                }
+        }
+
+    } while (true);
+}
+
+*/
+
+void ingreseNombre(char *nombre, char *nombreJugador, int numJugador) {
     int centrox = rlutil::tcols()/2;
     int centroy = rlutil::trows()/2;
-    std::string nombreJug;
+
     if (numJugador==0) {
         rlutil::locate(centrox-13, centroy-1);
         std::cout << "Ingrese nombre del jugador: ";
@@ -80,14 +124,27 @@ void ingreseNombre(char *nombre, char *apellido, char *nombreJugador, int numJug
         rlutil::locate(centrox-14, centroy-1);
         std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
     }
-    rlutil::locate(centrox-10, centroy+1);
+
+    rlutil::setBackgroundColor(rlutil::GREY);
+    rlutil::setColor(rlutil::BLACK);
+    dibujarLinea(centrox-13, centroy+1, 27, char(32));
+
+    rlutil::locate(centrox-12, centroy+1);
     rlutil::showcursor();
+
     cargarCadena(nombreJugador, 25);
-    separarNombre(nombreJugador, nombre, 15, apellido, 15);
+
+    setDefault();
+
+    mostrarCadena(nombreJugador);
+
+    separarNombre(nombreJugador, nombre, 15);
+
     mostrarCadena(nombre);
-    mostrarCadena(apellido);
+
 
     rlutil::anykey();
+
     rlutil::hidecursor();
     rlutil::cls();
 

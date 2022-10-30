@@ -5,7 +5,7 @@ void dibujarLinea(int posx, int posy, int tam, char forma);
 
 void mostrarPuntaje (int indicePuntaje, int puntaje);
 
-void ingreseNombre(char *nombre, char *apellido, char *nombreJugador, int numJugador);
+void ingreseNombre(char *nombre, char *nombreJugador, int numJugador);
 
 bool continuarLanzando();
 
