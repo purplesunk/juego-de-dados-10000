@@ -51,6 +51,7 @@ int menu() {
         mostrarOpcion("   MEJOR PUNTAJE        ", centrox, centroy+2, y == 2);
         mostrarOpcion("   SALIR                ", centrox, centroy+3, y == 3);
 
+
         switch (rlutil::getkey()) {
 
             case 15:  // ABAJO
@@ -83,8 +84,7 @@ int menu() {
 
                         char nombreJugador[25];
                         char nombre[15];
-                        char apellido[15];
-                        ingreseNombre(nombre, apellido, nombreJugador, 0);
+                        ingreseNombre(nombre, nombreJugador, 0);
 
                         int rondaLazamiento[2]={};
 
