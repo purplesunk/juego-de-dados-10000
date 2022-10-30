@@ -101,7 +101,7 @@ void cargarCadena(char *palabra, int tamano) {
 
 }
 
-int copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarEn, char caracter) {
+void copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarEn, char caracter) {
 
     for (int i=0; i<tamanoCopia; i++) {
 
@@ -131,15 +131,13 @@ int copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarE
 
     }
 
-    return empezarEn;
-
 }
 
 void separarNombre(char *nombreCompleto, char *nombre, int tamNombre) {
 
     int j=0;
 
-    j = copiarCadenaHasta(nombre, tamNombre, nombreCompleto, j, char(32));
+    copiarCadenaHasta(nombre, tamNombre, nombreCompleto, j, char(32));
 
 }
 
@@ -148,4 +146,47 @@ void mostrarCadena(const char *palabra) {
     std::cout << palabra;
 
     std::cout << "\n";
+}
+
+
+
+
+void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int rondaLazamiento[]) {
+    if (puntaje > mejorPuntaje[0]) {
+
+        mejorPuntaje[0] = puntaje;
+
+        mejorPuntaje[1] = rondaLazamiento[0];
+
+        mejorPuntaje[2] = rondaLazamiento[1];
+
+        copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+
+    }
+    else if (puntaje == mejorPuntaje[0]) {
+        if (rondaLazamiento[0] < mejorPuntaje[1]) {
+
+            mejorPuntaje[0] = puntaje;
+
+            mejorPuntaje[1] = rondaLazamiento[0];
+
+            mejorPuntaje[2] = rondaLazamiento[1];
+
+            copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+
+        }
+        else if (rondaLazamiento[0] == mejorPuntaje[1]) {
+            if (rondaLazamiento[1] < mejorPuntaje[2]) {
+
+                mejorPuntaje[0] = puntaje;
+
+                mejorPuntaje[1] = rondaLazamiento[0];
+
+                mejorPuntaje[2] = rondaLazamiento[1];
+
+                copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+
+            }
+        }
+    }
 }
