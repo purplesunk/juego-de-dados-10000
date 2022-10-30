@@ -140,11 +140,14 @@ int lanzamiento(int ronda, int puntajeTotal) {
             }
             else if (puntajeFinal > 10000) {
 
+                rlutil::locate(2,20);
                 std::cout <<  "Te pasaste de los 10000, sigue en la ronda siguiente.\n Presione una tecla para continuar.";
 
                 continuar = false;
 
                 puntaje = 0;
+
+                rlutil::anykey();
 
             }
             else {
