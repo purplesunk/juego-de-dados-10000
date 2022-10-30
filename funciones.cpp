@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cstring>
+#include <stdio.h>
+#include <string.h>
+#include<stdlib.h>
 #include "funciones.h"
 
 void cargarVectorRandom(int vec[], int tam, int limite) {
@@ -108,16 +111,22 @@ int copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarE
 
         if (original[empezarEn] == caracter) {
 
-            empezarEn++;
+            copia[i+1]='\0';
 
-            copia[i]='\0';
+            empezarEn++;
 
             break;
         }
 
-        if (i==tamanoCopia-1) {
+        if (i == tamanoCopia-1) {
+
             copia[i]='\0';
+
+
+
+            break;
         }
+
 
 
     }
@@ -126,20 +135,17 @@ int copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezarE
 
 }
 
-void separarNombre(char *nombreCompleto, char *nombre, int tamNombre, char *apellido, int tamApellido) {
+void separarNombre(char *nombreCompleto, char *nombre, int tamNombre) {
 
     int j=0;
 
     j = copiarCadenaHasta(nombre, tamNombre, nombreCompleto, j, char(32));
-
-    j = copiarCadenaHasta(apellido, tamApellido, nombreCompleto, j, '\0');
 
 }
 
 void mostrarCadena(const char *palabra) {
 
     std::cout << palabra;
-
 
     std::cout << "\n";
 }
