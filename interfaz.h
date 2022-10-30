@@ -7,7 +7,7 @@ void mostrarPuntaje (int indicePuntaje, int puntaje);
 
 void ingreseNombre(char *nombre, char *nombreJugador, int numJugador);
 
-bool continuarLanzando();
+bool continuarLanzando(int posy);
 
 void dibujarCaja(int posx, int posy, int ancho, int alto);
 
@@ -17,8 +17,12 @@ void dibujarCajaInfo(char *nombre, int tamConsola);
 
 void dibujarInfo();
 
-void mostrarDatosRonda(int ronda, int puntajeTotal);
-
 void dibujarDatos(int posx, int posy, const char* texto, int dato, const char* texto2, int dato2);
+
+void borrarResultado();
+
+void teclaParaContinuar(int posy);
+
+void mostrarPuntajeObtenido(int posx, int posy, char *nombreJugador, int puntaje, int  ronda, int lanzamiento, const char *texto);
 
 #endif // INTERFAZ_H_INCLUDED

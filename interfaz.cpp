@@ -14,7 +14,7 @@ void dibujarLinea(int posx, int posy, int tam, char forma) {
 }
 
 void mostrarPuntaje (int indicePuntaje, int puntaje) {
-    rlutil::locate(2,19);
+    rlutil::locate(3,19);
     switch (indicePuntaje) {
         case 0:
             std::cout << "OBTUVISTE UN SEXTETO!";
@@ -47,14 +47,23 @@ void mostrarPuntaje (int indicePuntaje, int puntaje) {
             std::cout << "OBTUVISTE UN JUEGO DE CINCO! +" << puntaje << " PUNTOS";
             break;
         case 10:
-            std::cout << "Perdio el puntaje acumulado en esta ronda\n Presione una tecla para continuar";
+            std::cout << "NO OBTUVO NADA, Perdio el puntaje acumulado en esta ronda.";
+
             break;
     }
 }
 
+/*
 bool continuarLanzando() {
-    rlutil::locate(2,20);
-    std::cout << "CONTINUAR LANZANDO (S/N)?";
+
+    int centro = rlutil::tcols()/2;
+
+    char pregunta[] = "CONTINUAR LANZANDO? (S/N)";
+
+    int mitadPregunta = strlen(pregunta)/2;
+
+    rlutil::locate(centro - mitadPregunta , 22);
+    std::cout << pregunta;
     do {
         switch (rlutil::getkey()) {
             case 115:  // s o S
@@ -68,18 +77,41 @@ bool continuarLanzando() {
         }
     } while (true);
 }
+*/
 
-/*
-bool continuarLanzando() {
-    rlutil::locate(2,20);
-    std::cout << "CONTINUAR LANZANDO?";
+void teclaParaContinuar(int posy) {
+
+    int centro = rlutil::tcols()/2;
+
+    char aviso[] = "Presione una tecla para continuar.";
+
+    int mitadAviso = strlen(aviso)/2;
+
+    rlutil::locate(centro - mitadAviso , posy);
+    std::cout << aviso;
+
+    rlutil::anykey();
+
+}
+
+bool continuarLanzando(int posy) {
+
+    int centro = rlutil::tcols()/2;
+
+    char pregunta[] = "CONTINUAR LANZANDO?";
+
+    int mitadPregunta = strlen(pregunta)/2;
+
+    rlutil::locate(centro - mitadPregunta , posy);
+    std::cout << pregunta;
+
 
     int x = 2;
 
     do {
 
-        mostrarOpcion("  SI  ", 15, 23, x == 1);
-        mostrarOpcion("  NO  ", 55, 23, x == 2);
+        mostrarOpcion("  SI  ", centro-10, posy+1, x == 1);
+        mostrarOpcion("  NO  ", centro+5, posy+1, x == 2);
 
 
         switch (rlutil::getkey()) {
@@ -110,7 +142,7 @@ bool continuarLanzando() {
     } while (true);
 }
 
-*/
+
 
 void ingreseNombre(char *nombre, char *nombreJugador, int numJugador) {
     int centrox = rlutil::tcols()/2;
@@ -125,25 +157,18 @@ void ingreseNombre(char *nombre, char *nombreJugador, int numJugador) {
         std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
     }
 
-    rlutil::setBackgroundColor(rlutil::GREY);
-    rlutil::setColor(rlutil::BLACK);
+    rlutil::setBackgroundColor(rlutil::BLUE);
+    rlutil::setColor(rlutil::WHITE);
     dibujarLinea(centrox-13, centroy+1, 27, char(32));
 
     rlutil::locate(centrox-12, centroy+1);
     rlutil::showcursor();
 
-    cargarCadena(nombreJugador, 25);
+    cargarCadena(nombreJugador, 30);
 
     setDefault();
 
-    mostrarCadena(nombreJugador);
-
     separarNombre(nombreJugador, nombre, 15);
-
-    mostrarCadena(nombre);
-
-
-    rlutil::anykey();
 
     rlutil::hidecursor();
     rlutil::cls();
@@ -240,39 +265,23 @@ void dibujarCajaInfo(char *nombre, int tamConsola) {
 
     strcat(titulo, nombre);
 
-    dibujarCajaTitulo(1, 1, tamConsola, 3, titulo);
+    dibujarCajaTitulo(1, 1, tamConsola-1, 3, titulo);
 
-    //dibujarInfo();
+    int altura = rlutil::trows();
+
+    dibujarCaja(1, 18, tamConsola-1, altura - 18);
+
 }
 
-/*
+void borrarResultado() {
 
-void dibujarInfo() {
+    int anchoCaja = rlutil::tcols() - 2;
 
-    rlutil::locate(3,4);
-    std::cout << "RONDA: ";
+    for (int i = 19; i<=23; i++) {
+        dibujarLinea(2, i, anchoCaja,char(32));
+    }
 
-    rlutil::locate(3,6);
-    std::cout << "PUNTAJE TOTAL: ";
-
-    rlutil::locate(40,4);
-    std::cout << "LANZAMIENTO: ";
-
-    rlutil::locate(40,6);
-    std::cout << "PUNTAJE DE RONDA: ";
 }
-
-void mostrarDatosRonda(int ronda, int puntajeTotal) {
-    dibujarLinea(10,4,2,char(32));
-    rlutil::locate(10, 4);
-    std::cout << ronda;
-
-    dibujarLinea(18,4,5,char(32));
-    rlutil::locate(18, 6);
-    std::cout << puntajeTotal;
-}
-
-*/
 
 void dibujarDatos(int posx, int posy, const char* texto, int dato, const char* texto2, int dato2) {
 
@@ -293,4 +302,32 @@ void dibujarDatos(int posx, int posy, const char* texto, int dato, const char* t
     dibujarLinea(posdato2,posy+2,5,char(32));
     rlutil::locate(posdato2, posy+2);
     std::cout << dato2;
+}
+
+void mostrarPuntajeObtenido(int posx, int posy, char *nombreJugador, int puntaje, int  ronda, int lanzamiento, const char *texto) {
+    rlutil::cls();
+
+    char titulo[80] = {};
+
+    strcat(titulo, texto);
+
+    strcat(titulo, nombreJugador);
+
+    posx-= strlen(titulo)/2;
+    posy-= 3;
+
+    dibujarCajaTitulo(posx, posy, strlen(titulo)+2, 3, titulo);
+
+    rlutil::locate(posx+2, posy+3);
+    std::cout << "PUNTAJE: " << puntaje;
+
+    rlutil::locate(posx+2, posy+4);
+    std::cout << "RONDA: " << ronda;
+
+    rlutil::locate(posx+2, posy+5);
+    std::cout << "LANZAMIENTO: " << lanzamiento;
+
+    teclaParaContinuar((posy+3)*2+1);
+
+    rlutil::cls();
 }
