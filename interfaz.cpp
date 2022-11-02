@@ -331,3 +331,18 @@ void mostrarPuntajeObtenido(int posx, int posy, char *nombreJugador, int puntaje
 
     rlutil::cls();
 }
+
+void entreRonda (int posx, int posy, int ronda, const char *nombre, int puntaje) {
+
+    dibujarCaja(posx-15, posy-2, 30, 4);
+
+    rlutil::locate(posx-13, posy-1);
+    std::cout << "RONDA SIGUIENTE: " << ronda;
+
+    rlutil::locate(posx-13, posy);
+    std::cout << "JUGADOR: " << nombre;
+
+    rlutil::locate(posx-13, posy+1);
+    std::cout << "PUNTAJE TOTAL: " << puntaje;
+
+}

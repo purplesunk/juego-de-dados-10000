@@ -25,4 +25,6 @@ void teclaParaContinuar(int posy);
 
 void mostrarPuntajeObtenido(int posx, int posy, char *nombreJugador, int puntaje, int  ronda, int lanzamiento, const char *texto);
 
+void entreRonda (int posx, int posy, int ronda, const char *nombre, int puntaje);
+
 #endif // INTERFAZ_H_INCLUDED
