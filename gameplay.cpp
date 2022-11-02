@@ -201,9 +201,9 @@ int lanzamiento(int  rondaLazamiento[], int puntajeTotal) {
 
 int modoUnJugador(char* nombre, int rondaLazamiento[]) {
 
-    int tamConsola=rlutil::tcols();
+    int anchoConsola=rlutil::tcols();
+    int altoConsola=rlutil::trows();
 
-    dibujarCajaInfo(nombre, tamConsola);
 
     int puntajeTotal = 0;
     int puntajeObt;
@@ -212,6 +212,14 @@ int modoUnJugador(char* nombre, int rondaLazamiento[]) {
 
         rondaLazamiento[0]++;
 
+        rlutil::cls();
+        entreRonda(anchoConsola/2, altoConsola/2, rondaLazamiento[0],nombre,puntajeTotal);
+
+        teclaParaContinuar(altoConsola-1);
+        rlutil::cls();
+
+
+        dibujarCajaInfo(nombre, anchoConsola);
         dibujarDatos( 3, 4, "RONDA: ", rondaLazamiento[0], "PUNTAJE TOTAL: ", puntajeTotal);
 
         puntajeObt = lanzamiento(rondaLazamiento,puntajeTotal);
