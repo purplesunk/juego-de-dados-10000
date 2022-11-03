@@ -27,4 +27,6 @@ void mostrarPuntajeObtenido(int posx, int posy, char *nombreJugador, int puntaje
 
 void entreRonda (int posx, int posy, int ronda, const char *nombre, int puntaje);
 
+void proximoTurno (const char *jugador1, const char *jugador2, int puntaje1, int puntaje2, int turno);
+
 #endif // INTERFAZ_H_INCLUDED

@@ -346,3 +346,29 @@ void entreRonda (int posx, int posy, int ronda, const char *nombre, int puntaje)
     std::cout << "PUNTAJE TOTAL: " << puntaje;
 
 }
+
+void proximoTurno (const char *jugador1, const char *jugador2, int puntaje1, int puntaje2, int turno) {
+
+    int centroH = rlutil::tcols()/2;
+    int centroV = rlutil::trows()/2;
+
+    dibujarCaja(centroH-25, centroV-3, 50, 5);
+
+    if (turno == 1) {
+
+        rlutil::locate(centroH-23, centroV-2);
+        std::cout << "PROXIMO TURNO: "<< jugador1;
+    }
+    else {
+
+        rlutil::locate(centroH-23, centroV-2);
+        std::cout << "PROXIMO TURNO: "<< jugador1;
+    }
+
+    rlutil::locate(centroH-23, centroV);
+    std::cout << "PUNTAJE TOTAL " << jugador1 << ": " << puntaje1;
+
+    rlutil::locate(centroH-23, centroV+1);
+    std::cout << "PUNTAJE TOTAL " << jugador2 << ": " << puntaje2;
+
+}
