@@ -150,43 +150,36 @@ void mostrarCadena(const char *palabra) {
 
 
 
+void cambiarMejorPuntaje(int mejorPuntaje[], int puntaje, int ronda, int lanzamiento) {
+
+    mejorPuntaje[0] = puntaje;
+    mejorPuntaje[1] = ronda;
+    mejorPuntaje[2] = lanzamiento;
+
+}
 
 void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int rondaLazamiento[]) {
     if (puntaje > mejorPuntaje[0]) {
 
-        mejorPuntaje[0] = puntaje;
-
-        mejorPuntaje[1] = rondaLazamiento[0];
-
-        mejorPuntaje[2] = rondaLazamiento[1];
-
+        cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
         copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
 
     }
     else if (puntaje == mejorPuntaje[0]) {
         if (rondaLazamiento[0] < mejorPuntaje[1]) {
 
-            mejorPuntaje[0] = puntaje;
-
-            mejorPuntaje[1] = rondaLazamiento[0];
-
-            mejorPuntaje[2] = rondaLazamiento[1];
-
+            cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
             copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
 
         }
         else if (rondaLazamiento[0] == mejorPuntaje[1]) {
             if (rondaLazamiento[1] < mejorPuntaje[2]) {
 
-                mejorPuntaje[0] = puntaje;
-
-                mejorPuntaje[1] = rondaLazamiento[0];
-
-                mejorPuntaje[2] = rondaLazamiento[1];
-
+                cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
                 copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
 
             }
         }
     }
 }
+
