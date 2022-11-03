@@ -107,14 +107,33 @@ int menu() {
 
                     case Opciones::MODO_DOS_JUGADORES: {
 
+                        char nombreCompletoJugador1[30];
+                        char nombreJugador1[15];
+                        ingreseNombre(nombreJugador1, nombreCompletoJugador1, 1);
 
-                        dibujarCaja(3,2,10,4);
-                        dibujarCajaTitulo(15,6,20,5,"Algun dia            ");
-                        dibujarCajaTitulo(40,10,10,0,"sera");
+                        char nombreCompletoJugador2[30];
+                        char nombreJugador2[15];
+                        ingreseNombre(nombreJugador2, nombreCompletoJugador2, 2);
+
+                        int ronda = 0;
+
+                        int puntajeJugador1 = 0;
+
+                        int puntajeJugador2 = 0;
+
+                        while (ronda < 10) {
+                            ronda++;
+
+                            proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 1);
+                            teclaParaContinuar((centroV*2)-1);
+                            rlutil::cls();
 
 
-                        rlutil::anykey();
-                        rlutil::cls();
+                            proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 2);
+                            teclaParaContinuar((centroV*2)-1);
+                            rlutil::cls();
+
+                        }
 
                     }
                     break;
