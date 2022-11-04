@@ -59,25 +59,21 @@ void elegirNumero(int posx, int posy, int num) {
 
 void dibujarSombraDado(int posx, int posy) {
 
-    char cuadradoAbajo = 220;
-    char espacio = 32;
-
-
     ponerColores(rlutil::CYAN, rlutil::BLACK);
-    dibujarLinea(posx,posy+2,1,cuadradoAbajo);
+    dibujarLinea(posx,posy+2,1,char(220));
 
 
     ponerColores(rlutil::CYAN, rlutil::BLUE);
-    dibujarLinea(posx+1,posy+2,6,cuadradoAbajo);
+    dibujarLinea(posx+1,posy+2,6,char(220));
 
 
     ponerColores(rlutil::BLACK, rlutil::BLUE);
-    dibujarLinea(posx+7,posy,1,cuadradoAbajo);
+    dibujarLinea(posx+7,posy,1,char(220));
 
 
     rlutil::setBackgroundColor(rlutil::BLUE);
-    dibujarLinea(posx+7,posy+1,1,espacio);
-    dibujarLinea(posx+7,posy+2,1,espacio);
+    dibujarLinea(posx+7,posy+1,1,' ');
+    dibujarLinea(posx+7,posy+2,1,' ');
 
 }
 
