@@ -19,7 +19,7 @@ void mostrarDato(int posx, int posy, const char* texto, int dato);
 
 void entreRonda (int ronda, const char *nombre, int puntaje);
 
-void proximoTurno (const char *jugador1, const char *jugador2, int puntaje1, int puntaje2, int turno);
+void proximoTurno (int ronda, const char *jugador1, const char *jugador2, int puntaje1, int puntaje2, int turno);
 
 void teclaParaContinuar(int posy);
 

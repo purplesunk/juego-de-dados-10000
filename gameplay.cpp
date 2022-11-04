@@ -268,7 +268,7 @@ void modoDosJugadores(int mejorPuntaje[], char *nombreMejorPuntaje) {
     while (ronda < 10 && puntajeJugador1 != 10000 && puntajeJugador2 != 10000) {
         ronda++;
 
-        proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 1);
+        proximoTurno(ronda, nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 1);
 
         dibujarInterfaz(nombreJugador1);
 
@@ -280,7 +280,7 @@ void modoDosJugadores(int mejorPuntaje[], char *nombreMejorPuntaje) {
             break;
         }
 
-        proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 2);
+        proximoTurno(ronda, nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 2);
 
         dibujarInterfaz(nombreJugador2);
 
@@ -289,10 +289,6 @@ void modoDosJugadores(int mejorPuntaje[], char *nombreMejorPuntaje) {
         puntajeJugador2 = validarPuntaje(puntajeObtenido, puntajeJugador2, ronda, nroLanzamiento, rondaJugador2, lanzamientoJugador2);
 
     }
-
-    mostrarPuntajeFinal(nombreJugador1, puntajeJugador1, rondaJugador1, lanzamientoJugador1, " PUNTAJE OBTENIDO POR ");
-
-    mostrarPuntajeFinal(nombreJugador2, puntajeJugador2, rondaJugador2, lanzamientoJugador2, " PUNTAJE OBTENIDO POR ");
 
     int vecJugador1[3] = { puntajeJugador1, rondaJugador1, lanzamientoJugador1};
 

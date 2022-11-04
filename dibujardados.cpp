@@ -114,8 +114,6 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
         int posXdado = (rand()% espacioParaDado) + gap + inicioEspacio;
         int posYdado = rand()%5 + posy;
 
-        rlutil::msleep(100);
-
         dibujarDado(posXdado,posYdado,vec[i]);
     }
 }
