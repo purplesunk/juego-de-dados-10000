@@ -15,8 +15,6 @@ bool hayCeros(int vec[], int tam);
 
 void separarNombre(char *nombreCompleto, char *nombre, int tamNombre);
 
-void mostrarCadena(const char *palabra);
-
-void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int rondaLazamiento[]);
+void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int ronda, int lanzamiento);
 
 #endif // FUNCIONES_H_INCLUDED

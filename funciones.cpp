@@ -122,12 +122,8 @@ void copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezar
 
             copia[i]='\0';
 
-
-
             break;
         }
-
-
 
     }
 
@@ -135,19 +131,9 @@ void copiarCadenaHasta(char *copia, int tamanoCopia, char *original, int empezar
 
 void separarNombre(char *nombreCompleto, char *nombre, int tamNombre) {
 
-    int j=0;
-
-    copiarCadenaHasta(nombre, tamNombre, nombreCompleto, j, char(32));
+    copiarCadenaHasta(nombre, tamNombre, nombreCompleto, 0, char(32));
 
 }
-
-void mostrarCadena(const char *palabra) {
-
-    std::cout << palabra;
-
-    std::cout << "\n";
-}
-
 
 
 void cambiarMejorPuntaje(int mejorPuntaje[], int puntaje, int ronda, int lanzamiento) {
@@ -158,28 +144,34 @@ void cambiarMejorPuntaje(int mejorPuntaje[], int puntaje, int ronda, int lanzami
 
 }
 
-void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int rondaLazamiento[]) {
+void compararMejorPuntaje(char *nombreMejorPuntaje, int mejorPuntaje[], char *nombreJugador, int  puntaje, int ronda, int lanzamiento) {
+
     if (puntaje > mejorPuntaje[0]) {
 
-        cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
-        copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+        cambiarMejorPuntaje(mejorPuntaje, puntaje, ronda, lanzamiento);
+        strcpy(nombreMejorPuntaje, nombreJugador);
 
     }
     else if (puntaje == mejorPuntaje[0]) {
-        if (rondaLazamiento[0] < mejorPuntaje[1]) {
 
-            cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
-            copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+        if (ronda < mejorPuntaje[1]) {
+
+            cambiarMejorPuntaje(mejorPuntaje, puntaje, ronda, lanzamiento);
+            strcpy(nombreMejorPuntaje, nombreJugador);
 
         }
-        else if (rondaLazamiento[0] == mejorPuntaje[1]) {
-            if (rondaLazamiento[1] < mejorPuntaje[2]) {
 
-                cambiarMejorPuntaje(mejorPuntaje, puntaje, rondaLazamiento[0], rondaLazamiento[1]);
-                copiarCadenaHasta(nombreMejorPuntaje, 30, nombreJugador, 0, '\0');
+        else if (ronda == mejorPuntaje[1]) {
+
+            if (lanzamiento < mejorPuntaje[2]) {
+
+                cambiarMejorPuntaje(mejorPuntaje, puntaje, ronda, lanzamiento);
+                strcpy(nombreMejorPuntaje, nombreJugador);
 
             }
+
         }
+
     }
 }
 

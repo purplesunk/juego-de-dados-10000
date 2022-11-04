@@ -19,6 +19,7 @@ int comprobar3Num(int vec[], int tam, int puntaje) {
 
         }
     }
+
     if (maximo!=0) {
         return maximo*puntaje;
     }
@@ -35,9 +36,7 @@ int comprobarCantDado(int vec[], int pos, int cant, int puntaje) {
 
     }
     else {
-
         return 0;
-
     }
 
 }
@@ -116,125 +115,190 @@ void tiradaDados(int vec[],int tam) {
     cargarVectorRandom(vec,tam,6);
 }
 
+int validarRonda (int puntajeObtenido, int puntajeFinal, int puntosRonda, bool &continuar) {
+    int altoConsola = rlutil::trows();
 
-int lanzamiento(int  rondaLazamiento[], int puntajeTotal) {
-    int puntosRonda=0;
+    if ( puntajeObtenido !=0 ) {
+
+        if (puntajeObtenido == 10000 || puntajeFinal==10000) {
+
+            rlutil::locate(3,20);
+            std::cout <<  "LLEGASTE A LOS 10000!! GANASTE LA PARTIDA!!";
+
+            puntosRonda = -1;
+            continuar = false;
+
+            teclaParaContinuar(altoConsola-2);
+
+        }
+        else if (puntajeFinal > 10000) {
+
+            rlutil::locate(3,20);
+            std::cout << "Te pasaste de los 10000, ronda finalizada.";
+
+            continuar = false;
+            puntosRonda = 0;
+            teclaParaContinuar(altoConsola-2);
+
+        }
+        else {
+
+            puntosRonda+=puntajeObtenido;
+            continuar = continuarLanzando(altoConsola-2);
+
+        }
+
+    }
+    else {
+
+        continuar=false;
+        teclaParaContinuar(altoConsola-2);
+        puntosRonda = 0;
+
+    }
+
+    return puntosRonda;
+}
+
+
+int lanzamiento(int  ronda, int &nroLanzamiento, int puntajeTotal) {
+
     int dados[6];
+    int puntosRonda=0;
 
-    rondaLazamiento[1]=1;
+    nroLanzamiento=0;
 
     bool continuar=true;
 
     while (continuar) {
 
-        dibujarDatos(40, 4, "LANZAMIENTO: ", rondaLazamiento[1], "PUNTOS DE RONDA: ", puntosRonda);
+        nroLanzamiento++;
+        mostrarDatosLanzamiento(ronda, puntajeTotal, nroLanzamiento, puntosRonda);
 
         tiradaDados(dados,6);
-
         dibujarDados(5,10,dados,6);
 
         int puntajeObtenido=sacarPuntajeTirada(dados,6);
-
         int puntajeFinal = puntajeTotal + puntosRonda + puntajeObtenido;
 
-        if ( puntajeObtenido !=0 ) {
-
-            if (puntajeObtenido == 10000 || puntajeFinal==10000) {
-
-                rlutil::locate(2,20);
-                std::cout <<  "GANASTE LA PARTIDA!!";
-
-                puntosRonda = -1;
-
-                continuar = false;
-
-                teclaParaContinuar(22);
-
-            }
-            else if (puntajeFinal > 10000) {
-
-                rlutil::locate(3,20);
-                std::cout << "Te pasaste de los 10000, ronda finalizada.";
-
-                continuar = false;
-
-                puntosRonda = 0;
-
-                teclaParaContinuar(22);
-
-            }
-            else {
-
-                puntosRonda+=puntajeObtenido;
-
-                continuar = continuarLanzando(22);
-
-            }
-
-        }
-        else {
-
-            continuar=false;
-
-            teclaParaContinuar(22);
-
-            borrarResultado();
-
-            borrarDados();
-
-            return 0;
-        }
-
-
+        puntosRonda = validarRonda(puntajeObtenido, puntajeFinal, puntosRonda, continuar);
 
         borrarDados();
-
         borrarResultado();
-
-        rondaLazamiento[1]++;
-
     }
 
     return puntosRonda;
 
 }
 
-int modoUnJugador(char* nombre, int rondaLazamiento[]) {
 
-    int anchoConsola=rlutil::tcols();
-    int altoConsola=rlutil::trows();
+int validarPuntaje (int puntajeObtenido, int puntajeTotal, int ronda, int nroLanzamiento, int &rondaPuntajeObtenido, int &lanzamientoPuntajeObtenido) {
+    puntajeTotal += puntajeObtenido;
 
-
-    int puntajeTotal = 0;
-    int puntajeObt;
-
-    while (rondaLazamiento[0] < 10 && puntajeTotal != 10000) {
-
-        rondaLazamiento[0]++;
-
-        rlutil::cls();
-        entreRonda(anchoConsola/2, altoConsola/2, rondaLazamiento[0],nombre,puntajeTotal);
-
-        teclaParaContinuar(altoConsola-1);
-        rlutil::cls();
-
-
-        dibujarCajaInfo(nombre, anchoConsola);
-        dibujarDatos( 3, 4, "RONDA: ", rondaLazamiento[0], "PUNTAJE TOTAL: ", puntajeTotal);
-
-        puntajeObt = lanzamiento(rondaLazamiento,puntajeTotal);
-
-        puntajeTotal += puntajeObt;
-
-        if (puntajeObt == -1) {
-            puntajeTotal= 10000;
-        }
-        if (puntajeTotal > 10000) {
-            puntajeTotal-=puntajeObt;
-        }
+    if (puntajeObtenido == -1) {
+        puntajeTotal= 10000;
     }
 
-    rlutil::cls();
+    if (puntajeObtenido != 0) {
+        rondaPuntajeObtenido = ronda;
+        lanzamientoPuntajeObtenido = nroLanzamiento;
+    }
 
     return puntajeTotal;
+}
+
+void modoUnJugador(int mejorPuntaje[], char *nombreMejorPuntaje) {
+
+    char nombreJugador[30];
+    char nombre[15];
+    ingreseNombre(nombre, nombreJugador, 0);
+
+    int ronda = 0;
+    int nroLanzamiento;
+
+    int puntajeTotal = 0;
+    int puntajeObtenido;
+
+    int rondaPuntajeObtenido;
+    int lanzamientoPuntajeObtenido;
+
+    while (ronda < 10 && puntajeTotal != 10000) {
+
+        ronda++;
+
+        entreRonda(ronda, nombre, puntajeTotal);
+
+        dibujarInterfaz(nombre);
+
+        puntajeObtenido = lanzamiento(ronda, nroLanzamiento, puntajeTotal);
+
+        puntajeTotal = validarPuntaje (puntajeObtenido, puntajeTotal, ronda, nroLanzamiento, rondaPuntajeObtenido, lanzamientoPuntajeObtenido);
+
+    }
+
+    mostrarPuntajeFinal(nombreJugador, puntajeTotal, rondaPuntajeObtenido, lanzamientoPuntajeObtenido, " PUNTAJE OBTENIDO POR ");
+
+    compararMejorPuntaje(nombreMejorPuntaje, mejorPuntaje, nombreJugador, puntajeTotal, rondaPuntajeObtenido, lanzamientoPuntajeObtenido);
+
+}
+
+void modoDosJugadores(int mejorPuntaje[], char *nombreMejorPuntaje) {
+
+    char nombreCompletoJugador1[30];
+    char nombreJugador1[15];
+    ingreseNombre(nombreJugador1, nombreCompletoJugador1, 1);
+
+    char nombreCompletoJugador2[30];
+    char nombreJugador2[15];
+    ingreseNombre(nombreJugador2, nombreCompletoJugador2, 2);
+
+
+    int puntajeJugador1 = 0;
+    int lanzamientoJugador1 = 0;
+    int rondaJugador1 = 0;
+
+    int puntajeJugador2 = 0;
+    int lanzamientoJugador2 = 0;
+    int rondaJugador2 = 0;
+
+    int ronda = 0;
+    int nroLanzamiento;
+    int puntajeObtenido;
+
+    while (ronda < 10 && puntajeJugador1 != 10000 && puntajeJugador2 != 10000) {
+        ronda++;
+
+        proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 1);
+
+        dibujarInterfaz(nombreJugador1);
+
+        puntajeObtenido = lanzamiento(ronda, nroLanzamiento, puntajeJugador1);
+
+        puntajeJugador1 = validarPuntaje(puntajeObtenido, puntajeJugador1, ronda, nroLanzamiento, rondaJugador1, lanzamientoJugador1);
+
+        if (puntajeJugador1 == 10000) {
+            break;
+        }
+
+        proximoTurno(nombreJugador1, nombreJugador2, puntajeJugador1, puntajeJugador2, 2);
+
+        dibujarInterfaz(nombreJugador2);
+
+        puntajeObtenido = lanzamiento(ronda, nroLanzamiento, puntajeJugador2);
+
+        puntajeJugador2 = validarPuntaje(puntajeObtenido, puntajeJugador2, ronda, nroLanzamiento, rondaJugador2, lanzamientoJugador2);
+
+    }
+
+    mostrarPuntajeFinal(nombreJugador1, puntajeJugador1, rondaJugador1, lanzamientoJugador1, " PUNTAJE OBTENIDO POR ");
+
+    mostrarPuntajeFinal(nombreJugador2, puntajeJugador2, rondaJugador2, lanzamientoJugador2, " PUNTAJE OBTENIDO POR ");
+
+    int vecJugador1[3] = { puntajeJugador1, rondaJugador1, lanzamientoJugador1};
+
+    compararMejorPuntaje(nombreCompletoJugador1, vecJugador1, nombreCompletoJugador2, puntajeJugador2, rondaJugador2, lanzamientoJugador2);
+
+    mostrarPuntajeFinal(nombreCompletoJugador1, vecJugador1[0], vecJugador1[1], vecJugador1[2], " GANA LA PARTIDA: ");
+
+    compararMejorPuntaje(nombreMejorPuntaje, mejorPuntaje, nombreCompletoJugador1, vecJugador1[0], vecJugador1[1], vecJugador1[2]);
 }

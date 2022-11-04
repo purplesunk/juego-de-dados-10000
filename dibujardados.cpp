@@ -1,6 +1,6 @@
 #include <iostream>
 #include "rlutil.h"
-#include "menu.h"
+#include "interfaz.h"
 #include "dibujardados.h"
 
 void dibujarUno(int posx, int posy) {
@@ -62,25 +62,21 @@ void dibujarSombraDado(int posx, int posy) {
     char cuadradoAbajo = 220;
     char espacio = 32;
 
-    rlutil::setBackgroundColor(rlutil::CYAN);
-    rlutil::setColor(rlutil::BLACK);
 
+    ponerColores(rlutil::CYAN, rlutil::BLACK);
     dibujarLinea(posx,posy+2,1,cuadradoAbajo);
 
-    rlutil::setBackgroundColor(rlutil::CYAN);
-    rlutil::setColor(rlutil::BLUE);
 
+    ponerColores(rlutil::CYAN, rlutil::BLUE);
     dibujarLinea(posx+1,posy+2,6,cuadradoAbajo);
 
-    rlutil::setBackgroundColor(rlutil::BLACK);
-    rlutil::setColor(rlutil::BLUE);
 
+    ponerColores(rlutil::BLACK, rlutil::BLUE);
     dibujarLinea(posx+7,posy,1,cuadradoAbajo);
 
+
     rlutil::setBackgroundColor(rlutil::BLUE);
-
     dibujarLinea(posx+7,posy+1,1,espacio);
-
     dibujarLinea(posx+7,posy+2,1,espacio);
 
 }
@@ -100,12 +96,11 @@ void dibujarDado(int posx, int posy, int num) {
     dibujarFormaDado(posx, posy);
     dibujarSombraDado(posx, posy);
 
-    rlutil::setColor(rlutil::BLACK);
-    rlutil::setBackgroundColor(rlutil::CYAN);
+    ponerColores(rlutil::CYAN, rlutil::BLACK);
 
     elegirNumero(posx, posy, num);
 
-    setDefault();
+    ponerColores(rlutil::BLACK, rlutil::WHITE);
 }
 
 void dibujarDados(int posx, int posy, int vec[], int cantDados) {
@@ -118,6 +113,8 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
 
         int posXdado = (rand()% espacioParaDado) + gap + inicioEspacio;
         int posYdado = rand()%5 + posy;
+
+        rlutil::msleep(100);
 
         dibujarDado(posXdado,posYdado,vec[i]);
     }

@@ -1,6 +1,7 @@
 #ifndef GAMEPLAY_H_INCLUDED
 #define GAMEPLAY_H_INCLUDED
 
-int modoUnJugador(char* nombre, int rondaLazamiento[]);
+void modoUnJugador(int mejorPuntaje[], char *nombreMejorPuntaje);
+void modoDosJugadores(int mejorPuntaje[], char *nombreMejorPuntaje);
 
 #endif // GAMEPLAY_H_INCLUDED
