@@ -1,4 +1,6 @@
 bin
 bin
 obj
+*.exe
+*.o
 dadosdiezmil.depend
