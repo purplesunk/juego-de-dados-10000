@@ -5,8 +5,18 @@
 #include <cstring>
 #include "rlutil.h"
 #include "interfaz.h"
-#include "dibujardados.h"
 #include "funciones.h"
+#include "dibujardados.h"
+
+const char *space = " ";
+const char *horizontal = "═";
+const char *vertical = "║";
+const char *top_left = "╔";
+const char *top_right = "╗";
+const char *bottom_left = "╚";
+const char *bottom_right = "╝";
+const char *pipe_left = "╠";
+const char *pipe_right = "╣";
 
 void ponerColores(int fondo, int letra) {
     rlutil::setBackgroundColor(fondo);
@@ -17,7 +27,7 @@ void mostrarOpcion(const char* texto, int posx, int posy, bool seleccionado) {
     if (seleccionado) {
         ponerColores(rlutil::MAGENTA, rlutil::BLACK);
         rlutil::locate(posx-2,posy);
-        std::cout << " " << (char)62 << texto << (char)60 << " ";
+        std::cout << " >" << texto << "< ";
         ponerColores(rlutil::BLACK, rlutil::WHITE);
     } else {
         ponerColores(rlutil::BLACK, rlutil::WHITE);
@@ -144,10 +154,15 @@ void ingreseNombre(char *nombre, char *nombreJugador, int numJugador) {
         std::cout << "Ingrese nombre del jugador " << numJugador << ": ";
     }
     ponerColores(rlutil::BLUE, rlutil::WHITE);
-    dibujarLinea(centrox-13, centroy+1, 27, char(32));
+    dibujarLineaU(centrox-13, centroy+1, 27, space);
     rlutil::locate(centrox-12, centroy+1);
     rlutil::showcursor();
     cargarCadena(nombreJugador, 30);
+    for (int i = 0; nombreJugador[i] != '\0'; i++) {
+        if (nombreJugador[i] > 96 && nombreJugador[i] < 123) {
+            nombreJugador[i]-= 32;
+        }
+    }
     ponerColores(rlutil::BLACK, rlutil::WHITE);
     separarNombre(nombreJugador, nombre, 15);
     rlutil::hidecursor();
@@ -158,42 +173,42 @@ void dibujarCaja(int posx, int posy, int ancho, int alto) {
     for (int i=posx; i<=posx+ancho; i++) {
         rlutil::locate(i,posy);
         if (i==posx) {
-            std::cout << char(201);
+            std::cout << top_left;
         }
         else if (i==posx+ancho) {
-            std::cout << char(187);
+            std::cout << top_right;
         }
         else {
-            std::cout << char(205);
+            std::cout << horizontal;
         }
     }
     for (int i=posx; i<=posx+ancho; i++) {
         rlutil::locate(i,posy+alto);
         if (i==posx) {
-            std::cout << char(200);
+            std::cout << bottom_left;
         }
         else if (i==posx+ancho) {
-            std::cout << char(188);
+            std::cout << bottom_right;
         }
         else {
-            std::cout << char(205);
+            std::cout << horizontal;
         }
     }
     for (int i=posy+1; i<posy+alto; i++) {
         rlutil::locate(posx,i);
-        std::cout << char(186);
+        std::cout << vertical;
     }
     for (int i=posy+1; i<posy+alto; i++) {
         rlutil::locate(posx+ancho,i);
-        std::cout << char(186);
+        std::cout << vertical;
     }
 }
 
 void dibujarCajaTitulo(int posx, int posy, int ancho, int alto, const char* titulo) {
     dibujarCaja(posx, posy, ancho, alto+3);
-    dibujarLinea(posx, posy+2, 1, char(204));
-    dibujarLinea(posx+1, posy+2, ancho-1, char(205));
-    dibujarLinea(posx+ancho, posy+2, 1, char(185));
+    dibujarLineaU(posx, posy+2, 1, pipe_left);
+    dibujarLineaU(posx+1, posy+2, ancho-1, horizontal);
+    dibujarLineaU(posx+ancho, posy+2, 1, pipe_right);
     int anchoTitulo = strlen(titulo);
     if (anchoTitulo > ancho) {
         ancho=anchoTitulo+2;
@@ -208,17 +223,22 @@ void dibujarCajaTitulo(int posx, int posy, int ancho, int alto, const char* titu
 
 void dibujarInterfaz(char *nombre) {
     int tamConsola = rlutil::tcols();
+    int altura = rlutil::trows();
     char titulo[30] = "TURNO DE ";
     strcat(titulo, nombre);
-    dibujarCajaTitulo(1, 1, tamConsola-1, 3, titulo);
-    int altura = rlutil::trows();
-    dibujarCaja(1, 18, tamConsola-1, altura - 18);
+    dibujarCajaTitulo(1, 1, tamConsola - 1, altura - 4, titulo);
+    dibujarLineaU(1, 7, 1, pipe_left);
+    dibujarLineaU(2,7, tamConsola - 1, horizontal);
+    dibujarLineaU(tamConsola, 7, 1, pipe_right);
+    dibujarLineaU(1, 18, 1, pipe_left);
+    dibujarLineaU(2, 18, tamConsola - 1, horizontal);
+    dibujarLineaU(tamConsola, 18, 1, pipe_right);
 }
 
 void borrarResultado() {
     int anchoCaja = rlutil::tcols() - 2;
     for (int i = 19; i<=23; i++) {
-        dibujarLinea(2, i, anchoCaja,char(32));
+        dibujarLineaU(2, i, anchoCaja, space);
     }
 }
 
@@ -227,7 +247,7 @@ void mostrarDato(int posx, int posy, const char* texto, int dato) {
     std::cout << texto;
     int posDato = posx + strlen(texto);
     // reiniciar dato
-    dibujarLinea(posDato,posy,5,char(32));
+    dibujarLineaU(posDato,posy,5, space);
     rlutil::locate(posDato, posy);
     std::cout << dato;
 }

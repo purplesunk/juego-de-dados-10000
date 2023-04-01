@@ -8,7 +8,6 @@
 
 const char *top = "▀";
 const char *bottom = "▄";
-const char *space = " ";
 
 void dibujarUno(int posx, int posy) {
     dibujarLineaU(posx+3,posy+1,1, top);
@@ -107,7 +106,7 @@ void dibujarDados(int posx, int posy, int vec[], int cantDados) {
 
 void borrarDados() {
     for (int i=9; i<18; i++) {
-        dibujarLineaU(1,i,rlutil::tcols()-5, space);
+        dibujarLineaU(2,i,rlutil::tcols()-5, space);
     }
 }
 

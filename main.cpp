@@ -89,8 +89,8 @@ int main() {
                     case Opciones::SALIR: {
                         ponerColores(rlutil::BLACK, rlutil::WHITE);
                         rlutil::cls();
-                        return 0;
                         rlutil::showcursor();
+                        return 0;
                     }
                     break;
                 }
