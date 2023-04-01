@@ -1,6 +1,6 @@
 # Trabajo Práctico - Juego de dados diez mil.
 
-Hecho con C++, usando codeblocks y rlutil.
+Hecho con C++, usando rlutil.
 
 ![Gameplay](gameplay-image.png)
 
@@ -20,6 +20,7 @@ Objetivo: obtener 10000 puntos en la menor cantidad de rondas posibles. Cada ron
 
 
 
-## Linux:
-
-Para usar en linux instalar luit y correrlo con luit -encoding CP-437
+## Compilado:
+```
+g++ main.cpp -o dados10k.exe
+```
