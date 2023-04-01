@@ -2,7 +2,7 @@
 
 Hecho con C++, usando rlutil.
 
-![Gameplay](gameplay-image.png)
+![Gameplay](gameplay-image.jpeg)
 
 ## Reglas del juego: 
 Objetivo: obtener 10000 puntos en la menor cantidad de rondas posibles. Cada ronda está compuesta por varios lanzamientos.
